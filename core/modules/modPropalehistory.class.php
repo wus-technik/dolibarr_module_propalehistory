@@ -437,7 +437,7 @@ class modPropalehistory extends DolibarrModules
 
         $result = $this->loadTables();
 
-        $url = dol_buildpath('/mymodule/script/create-maj-base.php', 2);
+        $url = dol_buildpath('/propalehistory/script/create-maj-base.php', 2);
         file_get_contents($url);
 
         return $this->_init($sql, $options);

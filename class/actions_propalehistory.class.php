@@ -1,5 +1,5 @@
 <?php
-class ActionsMymodule
+class ActionsPropalehistory
 { 
      /** Overloading the doActions function : replacing the parent's function with the one below 
       *  @param      parameters  meta datas of the hook (context, etc...) 
@@ -9,12 +9,35 @@ class ActionsMymodule
       */
       
     function formObjectOptions($parameters, &$object, &$action, $hookmanager) 
-    {  
+    {
       	global $langs,$db;
+		define('INC_FROM_DOLIBARR', true);
+		dol_include_once("/propalehistory/config.php");
+		require_once("propaleHist.class.php");
 		
-		if (in_array('ordercard',explode(':',$parameters['context']))) 
+		if (in_array('propalcard',explode(':',$parameters['context']))) 
         {
-        	
+			$ATMdb = new TPDOdb;
+        	isset($_REQUEST['action'])?$action = $_REQUEST['action']:$action = "";
+			if($action == 'createVersion') {
+	        	$newVersionPropale = new TPropaleHist;
+				$newVersionPropale->serialized_parent_propale = serialize($object);
+				$newVersionPropale->date_version = date("Y-m-d h:i:s");
+				$newVersionPropale->fk_propale = $object->id;
+				$newVersionPropale->save($ATMdb);
+				setEventMessage('Version sauvegardée avec succès !', 'mesgs');
+			}
+			
+			if($object->statut == 1) {
+				print '<a id="butNewVersion" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&action=createVersion">Historiser propale</a>';
+				?>
+					<script type="text/javascript">
+						$(document).ready(function() {
+							$("#butNewVersion").appendTo('div.tabsAction');
+						})
+					</script>
+				<?
+			}
 		}
 		
 		return 0;

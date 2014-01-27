@@ -1,5 +1,6 @@
 <?
 	class TPropaleHist extends TObjetStd {
+		
 		function __construct() {
 			parent::set_table(MAIN_DB_PREFIX.'propale_history');
 			parent::add_champs('serialized_parent_propale','type=text;index');
@@ -8,4 +9,9 @@
 			parent::start();
 			parent::_init_vars();
 		}
-	}
+		
+		function save($db) {
+			parent::save($db);
+		}
+				
+	}	

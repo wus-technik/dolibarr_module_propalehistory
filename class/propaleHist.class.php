@@ -13,5 +13,9 @@
 		function save($db) {
 			parent::save($db);
 		}
+		
+		function load(&$ATMdb,$idVersion){
+			parent::load($ATMdb,$idVersion);
+		}
 				
 	}	

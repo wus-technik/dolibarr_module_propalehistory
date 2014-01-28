@@ -42,7 +42,7 @@ class ActionsPropalehistory
 							})
 						</script>
 					<?
-					$this->listeVersions($db, $object);				
+					$this->listeVersions($db, $object);
 				}
 			}
 
@@ -53,10 +53,12 @@ class ActionsPropalehistory
 
 	function doActions($parameters, &$object, &$action, $hookmanager) {
       	global $langs,$db, $user;
+		
 		define('INC_FROM_DOLIBARR', true);
 		dol_include_once("/propalehistory/config.php");
 		dol_include_once("/comm/propal/class/propal.class.php");
 		require_once("propaleHist.class.php");
+		
 		$ATMdb = new TPDOdb;
 		
 		if(isset($_REQUEST['actionATM'])) {
@@ -69,12 +71,16 @@ class ActionsPropalehistory
 			
 			$version = new TPropaleHist;
 			$version->load($ATMdb, $_REQUEST['idVersion']);
+			
 			$object = unserialize($version->serialized_parent_propale);
 			$object->__construct($db, $object->socid);
 									
 		} elseif($actionATM == 'createVersion') {
+			
 			$this->archiverPropale($object);
+			
 		} elseif($actionATM == 'restaurer') {
+			
 			$this->restaurerPropale($object);
 		}
 	} 
@@ -84,14 +90,15 @@ class ActionsPropalehistory
 		$ATMdb = new TPDOdb;
 		
 		$newVersionPropale = new TPropaleHist;
+		
 		$newVersionPropale->serialized_parent_propale = serialize($object);
 		$newVersionPropale->date_version = dol_now();
 		$newVersionPropale->fk_propale = $object->id;
+		
 		$newVersionPropale->save($ATMdb);
+		
 		if($_REQUEST['actionATM'] == 'createVersion') {
 			setEventMessage('Version sauvegardée avec succès !', 'mesgs');
-		} elseif($_REQUEST['actionATM'] == 'restaurer') {
-			setEventMessage('Restauration effectuée avec succès !', 'mesgs');
 		}
 
 	}
@@ -140,39 +147,51 @@ class ActionsPropalehistory
 		
 		?>
 			<script language="javascript">
+				alert('Restauration effectuée avec succès !');
 				document.location.href="<?=dirname($_SERVER['PHP_SELF'])?>/propal.php?id=" + <?=$nouvelID?>;
 			</script>
-		<?		
+		<?
 
 	}
 	
 	function listeVersions(&$db, $object) {
-		//print_r($object);
-		$sql = "SELECT rowid, date_version, date_cre";
+
+		$sql.= " SELECT rowid, date_version, date_cre";
 		$sql.= " FROM ".MAIN_DB_PREFIX."propale_history";
 		$sql.= " WHERE fk_propale = ".$_REQUEST['id'];
 		$sql.= " ORDER BY 1 ASC";
 		$resql = $db->query($sql);
 		
-		print '<form name="formVoirPropale" method="POST" action="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'">';
-		print '<input type="hidden" name="actionATM" value="viewVersion" />';
-		print '<input type="hidden" name="socid" value="'.$object->socid.'" />';
-		print '<select name="idVersion">';
-		while($row = $resql->fetch_object()) {
-			
-			if(isset($_REQUEST['idVersion']) && $_REQUEST['idVersion'] == $row->rowid){
-				$selected = 'selected="selected"';
-			} else {
-				$selected = "";
+		if($resql->num_rows>0) {
+			print '<div id="formListe" style="float:right; margin-top: -8px;">';
+			print '<form name="formVoirPropale" method="POST" action="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'">';
+			print '<input type="hidden" name="actionATM" value="viewVersion" />';
+			print '<input type="hidden" name="socid" value="'.$object->socid.'" />';
+			print '<select name="idVersion">';
+			while($row = $resql->fetch_object()) {
+				
+				if(isset($_REQUEST['idVersion']) && $_REQUEST['idVersion'] == $row->rowid){
+					$selected = 'selected="selected"';
+				} else {
+					$selected = "";
+				}
+				echo $selected;
+				print '<option id="'.$row->rowid.'" value="'.$row->rowid.'" '.$selected.'>Version n° '.$row->rowid.' du '.date_format(date_create($row->date_cre), "d M. Y").'</option>';
+				
 			}
-			echo $selected;
-			print '<option id="'.$row->rowid.'" value="'.$row->rowid.'" '.$selected.'>'.$row->rowid.' : '.$row->date_cre.'</option>';
+			print '</select>';
+			print '<input class="butAction" id="voir" value="Visualiser" type="SUBMIT" />';
+			print '</form>';
+			print '</div>';
 			
-		}
-		print '</select>';
-		print '<input value="Voir" type="SUBMIT" />';
-		print '</form>';
-		
+			?>
+				<script type="text/javascript">
+					$(document).ready(function() {
+						$("#formListe").appendTo('div.tabsAction');
+					})
+				</script>
+			<?
+			}
 	}
      
     function formEditProductOptions($parameters, &$object, &$action, $hookmanager) 

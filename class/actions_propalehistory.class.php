@@ -33,7 +33,7 @@ class ActionsPropalehistory
 					$this->listeVersions($db, $object);			
 				} elseif($actionATM == 'createVersion') {
 					$this->listeVersions($db, $object);
-				} elseif($actionATM == '') {
+				} elseif($actionATM == '' && $object->statut == 1) {
 					print '<a id="butNewVersion" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=createVersion">Archiver</a>';
 					?>
 						<script type="text/javascript">
@@ -137,6 +137,12 @@ class ActionsPropalehistory
 		$sql.= " SET fk_propale = ".$nouvelID;
 		$sql.= " WHERE fk_propale = ".$ancienID;
 		$resql = $db->query($sql);
+		
+		?>
+			<script language="javascript">
+				document.location.href="<?=dirname($_SERVER['PHP_SELF'])?>/propal.php?id=" + <?=$nouvelID?>;
+			</script>
+		<?		
 
 	}
 	

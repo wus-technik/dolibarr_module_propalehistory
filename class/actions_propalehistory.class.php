@@ -19,31 +19,31 @@ class ActionsPropalehistory
 		
 		if (in_array('propalcard',explode(':',$parameters['context']))) 
         {
-        	isset($_REQUEST['actionATM'])?$actionATM = $_REQUEST['actionATM']:$actionATM = '';
-			if($actionATM == 'viewVersion') {
-				print '<a id="butRestaurer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=restaurer">Restaurer</a>';
-				?>
-					<script type="text/javascript">
-						$(document).ready(function() {
-							$("#butRestaurer").appendTo('div.tabsAction');
-							//$('div.tabsAction').hide();
-						})
-					</script>
-				
-				<?	
-				$this->listeVersions($db, $object);			
-			} elseif($actionATM == 'createVersion') {
-				$this->listeVersions($db, $object);
-			} elseif($actionATM == '') {
-				print '<a id="butNewVersion" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=createVersion">Archiver</a>';
-				?>
-					<script type="text/javascript">
-						$(document).ready(function() {
-							$("#butNewVersion").appendTo('div.tabsAction');
-						})
-					</script>
-				<?
-				$this->listeVersions($db, $object);				
+	        if($action != 'create') {	
+	        	isset($_REQUEST['actionATM'])?$actionATM = $_REQUEST['actionATM']:$actionATM = '';
+				if($actionATM == 'viewVersion') {
+					?>
+						<script type="text/javascript">
+							$(document).ready(function() {
+								$('div.tabsAction').html('<?='<a id="butRestaurer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=restaurer&idVersion='.$_REQUEST['idVersion'].'">Restaurer</a>'?>');
+							})
+						</script>
+					
+					<?	
+					$this->listeVersions($db, $object);			
+				} elseif($actionATM == 'createVersion') {
+					$this->listeVersions($db, $object);
+				} elseif($actionATM == '') {
+					print '<a id="butNewVersion" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=createVersion">Archiver</a>';
+					?>
+						<script type="text/javascript">
+							$(document).ready(function() {
+								$("#butNewVersion").appendTo('div.tabsAction');
+							})
+						</script>
+					<?
+					$this->listeVersions($db, $object);				
+				}
 			}
 
 		}
@@ -71,14 +71,7 @@ class ActionsPropalehistory
 			$version->load($ATMdb, $_REQUEST['idVersion']);
 			$object = unserialize($version->serialized_parent_propale);
 			$object->__construct($db, $object->socid);
-			/*?>
-				<script type="text/javascript">
-					$(document).ready(function() {
-						$('#div.tabsAction').hide("slow");
-					})
-				</script>
-			<?*/
-						
+									
 		} elseif($actionATM == 'createVersion') {
 			$this->archiverPropale($object);
 		} elseif($actionATM == 'restaurer') {
@@ -95,28 +88,56 @@ class ActionsPropalehistory
 		$newVersionPropale->date_version = dol_now();
 		$newVersionPropale->fk_propale = $object->id;
 		$newVersionPropale->save($ATMdb);
-		setEventMessage('Version sauvegardée avec succès !', 'mesgs');
-				
+		if($_REQUEST['actionATM'] == 'createVersion') {
+			setEventMessage('Version sauvegardée avec succès !', 'mesgs');
+		} elseif($_REQUEST['actionATM'] == 'restaurer') {
+			setEventMessage('Restauration effectuée avec succès !', 'mesgs');
+		}
+
 	}
 	
 	function restaurerPropale(&$object) {
+		
 		global $db, $user;
 		$ATMdb = new TPDOdb;
 		
 		$versionPropale = new TPropaleHist;
-		$versionPropale->loadBy($ATMdb, $object->id, 'fk_propale');
-		
-		$this->archiverPropale(unserialize($versionPropale->serialized_parent_propale));
-		
-		$propale = new Propal($db);
-		$propale->fetch($versionPropale->fk_propale);
-		$propale->delete($user);
+		$versionPropale->load($ATMdb, $_REQUEST['idVersion']);
 		$propale = unserialize($versionPropale->serialized_parent_propale);
+		$propale->statut = 0;
+		
+		$this->archiverPropale($object);
+				
+		$ancienID = $object->id;
+		$ancienneRef = $object->ref;
+						
+		$object->delete($user);
+		
+		$propale->__construct($db, $propale->socid);
 		$propale->create($user);
-		/*echo "<pre>";
-		print_r($propale);
-		echo "</pre>";
-		exit;*/
+		$propale->valid($user);
+		
+		// On récupère la référence de la propale une fois validée car la fonction valid() ne stocke pas la nouvelle ref dans l'objet...
+		$sql = "SELECT rowid, ref";
+		$sql.= " FROM ".MAIN_DB_PREFIX."propal";
+		$sql.= " WHERE rowid = ".$propale->id;
+		$resql = $db->query($sql);
+		$resql = $resql->fetch_object();
+		$nouvelID = $resql->rowid;
+		$nouvelleRef = $resql->ref;
+
+		// On remet la même référence qu'au début
+		$sql = "UPDATE ".MAIN_DB_PREFIX."propal";
+		$sql.= " SET ref = '".$ancienneRef;
+		$sql.= "' WHERE ref = '".$nouvelleRef."'";
+		$resql = $db->query($sql);
+		
+		// On met à jour le champ fk_propale de la table llx_propale_history pour chaque version de la propale concernée
+		$sql = "UPDATE ".MAIN_DB_PREFIX."propale_history";
+		$sql.= " SET fk_propale = ".$nouvelID;
+		$sql.= " WHERE fk_propale = ".$ancienID;
+		$resql = $db->query($sql);
+
 	}
 	
 	function listeVersions(&$db, $object) {

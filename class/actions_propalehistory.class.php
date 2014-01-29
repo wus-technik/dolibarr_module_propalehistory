@@ -25,7 +25,7 @@ class ActionsPropalehistory
 					?>
 						<script type="text/javascript">
 							$(document).ready(function() {
-								$('div.tabsAction').html('<?='<a id="butRestaurer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=restaurer&idVersion='.$_REQUEST['idVersion'].'">Restaurer</a>'?>');
+								$('div.tabsAction').html('<?='<div><a id="butRestaurer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=restaurer&idVersion='.$_REQUEST['idVersion'].'">Restaurer</a></div>'?>');
 								$('#butRestaurer').insertAfter('#voir');
 								$('#builddoc_form').hide();
 							})
@@ -171,7 +171,7 @@ class ActionsPropalehistory
 		$resql = $db->query($sql);
 		
 		if($resql->num_rows>0) {
-			print '<div id="formListe" style="float:right; margin-top: -8px;">';
+			print '<div id="formListe" style="clear:both; margin-top:15px">';
 			print '<form name="formVoirPropale" method="POST" action="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'">';
 			print '<input type="hidden" name="actionATM" value="viewVersion" />';
 			print '<input type="hidden" name="socid" value="'.$object->socid.'" />';

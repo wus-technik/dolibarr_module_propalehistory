@@ -26,6 +26,8 @@ class ActionsPropalehistory
 						<script type="text/javascript">
 							$(document).ready(function() {
 								$('div.tabsAction').html('<?='<a id="butRestaurer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=restaurer&idVersion='.$_REQUEST['idVersion'].'">Restaurer</a>'?>');
+								$('#butRestaurer').insertAfter('#voir');
+								$('#builddoc_form').hide();
 							})
 						</script>
 					
@@ -72,8 +74,14 @@ class ActionsPropalehistory
 			$version = new TPropaleHist;
 			$version->load($ATMdb, $_REQUEST['idVersion']);
 			
-			$object = unserialize($version->serialized_parent_propale);
-			$object->__construct($db, $object->socid);
+			$propal = unserialize($version->serialized_parent_propale);
+			
+			$object = new PropalHist($db, $object->socid);
+			foreach($propal as $k=>$v) $object->{$k} = $v;
+			
+/*			$object = $tmp;
+			$object->__construct($db, $object->socid);*/
+			$object->id = $_REQUEST['id'];
 									
 		} elseif($actionATM == 'createVersion') {
 			
@@ -168,6 +176,7 @@ class ActionsPropalehistory
 			print '<input type="hidden" name="actionATM" value="viewVersion" />';
 			print '<input type="hidden" name="socid" value="'.$object->socid.'" />';
 			print '<select name="idVersion">';
+			$i = 1;
 			while($row = $resql->fetch_object()) {
 				
 				if(isset($_REQUEST['idVersion']) && $_REQUEST['idVersion'] == $row->rowid){
@@ -176,7 +185,9 @@ class ActionsPropalehistory
 					$selected = "";
 				}
 				echo $selected;
-				print '<option id="'.$row->rowid.'" value="'.$row->rowid.'" '.$selected.'>Version n° '.$row->rowid.' du '.date_format(date_create($row->date_cre), "d M. Y").'</option>';
+				print '<option id="'.$row->rowid.'" value="'.$row->rowid.'" '.$selected.'>Version n° '.$i.' du '.date_format(date_create($row->date_cre), "d M. Y").'</option>';
+				
+				$i++;
 				
 			}
 			print '</select>';

@@ -6,6 +6,7 @@ define('INC_FROM_CRON_SCRIPT', true);
 
 require('../config.php');
 require('../class/propaleHist.class.php');
+dol_include_once('/comm/propal/propal.class.php');
 
 $PDOdb=new TPDOdb;
 $PDOdb->db->debug=true;

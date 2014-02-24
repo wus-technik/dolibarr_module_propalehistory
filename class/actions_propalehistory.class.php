@@ -106,7 +106,7 @@ class ActionsPropalehistory
 		$newVersionPropale->save($ATMdb);
 		
 		if($_REQUEST['actionATM'] == 'createVersion') {
-			setEventMessage('Version sauvegardée avec succès !', 'mesgs');
+			setEventMessage('Version sauvegardée avec succès.', 'mesgs');
 		}
 
 	}

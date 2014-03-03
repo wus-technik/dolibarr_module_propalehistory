@@ -97,6 +97,14 @@ class ActionsPropalehistory
 			$version = new TPropaleHist;	
 			$version->load($ATMdb, $_REQUEST['idVersion']);
 			$version->delete($ATMdb);
+			
+			?>
+				<script language="javascript">
+					alert('Suppression effectuée avec succès !');
+					document.location.href="<?=dirname($_SERVER['PHP_SELF'])?>/propal.php?id=" + <?=$_REQUEST['id']?>;
+				</script>
+			<?
+					
 		}
 	} 
 

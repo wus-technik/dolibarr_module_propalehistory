@@ -19,14 +19,15 @@ class ActionsPropalehistory
 		
 		if (in_array('propalcard',explode(':',$parameters['context']))) 
         {
-	        if($action != 'create') {	
+	        if($action != 'create' && $action != 'statut') {	
 	        	isset($_REQUEST['actionATM'])?$actionATM = $_REQUEST['actionATM']:$actionATM = '';
 				if($actionATM == 'viewVersion') {
 					?>
 						<script type="text/javascript">
 							$(document).ready(function() {
-								$('div.tabsAction').html('<?='<div><a id="butRestaurer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=restaurer&idVersion='.$_REQUEST['idVersion'].'">Restaurer</a></div>'?>');
+								$('div.tabsAction').html('<?='<div><a id="butRestaurer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=restaurer&idVersion='.$_REQUEST['idVersion'].'">Restaurer</a><a id="butSupprimer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=supprimer&idVersion='.$_REQUEST['idVersion'].'">Supprimer</a></div>'?>');
 								$('#butRestaurer').insertAfter('#voir');
+								$('#butSupprimer').insertBefore('#voir');
 								$('#builddoc_form').hide();
 							})
 						</script>
@@ -90,6 +91,12 @@ class ActionsPropalehistory
 		} elseif($actionATM == 'restaurer') {
 			
 			$this->restaurerPropale($object);
+			
+		} elseif($actionATM == 'supprimer') {
+			
+			$version = new TPropaleHist;	
+			$version->load($ATMdb, $_REQUEST['idVersion']);
+			$version->delete($ATMdb);
 		}
 	} 
 

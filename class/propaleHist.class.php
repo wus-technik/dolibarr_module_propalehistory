@@ -17,6 +17,10 @@
 		function load(&$ATMdb,$idVersion){
 			parent::load($ATMdb,$idVersion);
 		}
+		
+		function delete(&$ATMdb) {
+			parent::delete($ATMdb);
+		}
 				
 	}	
 

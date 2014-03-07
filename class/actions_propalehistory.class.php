@@ -135,6 +135,31 @@ class ActionsPropalehistory
 		$versionPropale->load($ATMdb, $_REQUEST['idVersion']);
 		$propale = unserialize($versionPropale->serialized_parent_propale);
 		$propale->statut = 0;
+
+		$object->statut = 0;
+		foreach($object->lines as $line) {
+			//pre($line, true);
+			$object->deleteline($line->rowid)."<br />";
+		}	
+
+		foreach($propale->lines as $line) {
+			$object->addline($line->desc, $line->subprice, $line->qty, $line->tva_tx, $line->localtax1_tx, $line->localtax2_tx, $line->fk_product, $line->remise_percent, $line->date_start, $line->date_end);
+		}
+		
+		$object->valid($user);
+
+	}
+	
+	// Ancienne version
+	function restaurerPropale2(&$object) {
+		
+		global $db, $user;
+		$ATMdb = new TPDOdb;
+		
+		$versionPropale = new TPropaleHist;
+		$versionPropale->load($ATMdb, $_REQUEST['idVersion']);
+		$propale = unserialize($versionPropale->serialized_parent_propale);
+		$propale->statut = 0;
 		
 		$this->archiverPropale($object);
 				
@@ -172,6 +197,7 @@ class ActionsPropalehistory
 			<script language="javascript">
 				alert('Restauration effectuée avec succès !');
 				document.location.href="<?=dirname($_SERVER['PHP_SELF'])?>/propal.php?id=" + <?=$nouvelID?>;
+				jNotify('ok');
 			</script>
 		<?
 

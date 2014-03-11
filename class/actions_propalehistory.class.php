@@ -130,7 +130,7 @@ class ActionsPropalehistory
 		
 		global $db, $user;
 		$ATMdb = new TPDOdb;
-		
+
 		$versionPropale = new TPropaleHist;
 		$versionPropale->load($ATMdb, $_REQUEST['idVersion']);
 		$propale = unserialize($versionPropale->serialized_parent_propale);
@@ -146,7 +146,15 @@ class ActionsPropalehistory
 			$object->addline($line->desc, $line->subprice, $line->qty, $line->tva_tx, $line->localtax1_tx, $line->localtax2_tx, $line->fk_product, $line->remise_percent, $line->date_start, $line->date_end);
 		}
 		
+		$object->set_draft($user); // Pour pouvoir modifier les dates, le statut doit être à 0
+		$object->set_availability($user, $propale->availability_id);
+		$object->set_date($user, $propale->date);
+		$object->set_date_livraison($user, $propale->date_livraison);
+		$object->set_echeance($user, $propale->fin_validite);
+		$object->set_ref_client($user, $propale->ref_client);
 		$object->valid($user);
+		
+		header('Location: '.dol_buildpath('/comm/propal.php?id='.$_REQUEST['id'], 1));
 
 	}
 	

@@ -64,6 +64,17 @@ class ActionsPropalehistory
 		
 		$ATMdb = new TPDOdb;
 		
+		if($_REQUEST['action'] == 'delete') {
+			
+			global $db;
+			
+			$sql = "DELETE FROM ".MAIN_DB_PREFIX."propale_history";
+			$sql.= " WHERE fk_propale = ".$_REQUEST['id'];
+			
+			$resql = $db->query($sql);
+			
+		}
+		
 		if(isset($_REQUEST['actionATM'])) {
 			$actionATM = $_REQUEST['actionATM'];
 		} else {
@@ -97,10 +108,9 @@ class ActionsPropalehistory
 			$version = new TPropaleHist;	
 			$version->load($ATMdb, $_REQUEST['idVersion']);
 			$version->delete($ATMdb);
-			
+
 			?>
 				<script language="javascript">
-					alert('Suppression effectuée avec succès !');
 					document.location.href="<?=dirname($_SERVER['PHP_SELF'])?>/propal.php?id=" + <?=$_REQUEST['id']?>;
 				</script>
 			<?
@@ -120,9 +130,15 @@ class ActionsPropalehistory
 		
 		$newVersionPropale->save($ATMdb);
 		
-		if($_REQUEST['actionATM'] == 'createVersion') {
+		?>
+			<script language="javascript">
+				document.location.href="<?=dirname($_SERVER['PHP_SELF'])?>/propal.php?id=" + <?=$_REQUEST['id']?>;
+			</script>
+		<?
+		
+		/*if($_REQUEST['actionATM'] == 'createVersion') {
 			setEventMessage('Version sauvegardée avec succès.', 'mesgs');
-		}
+		}*/
 
 	}
 	
@@ -135,15 +151,18 @@ class ActionsPropalehistory
 		$versionPropale->load($ATMdb, $_REQUEST['idVersion']);
 		$propale = unserialize($versionPropale->serialized_parent_propale);
 		$propale->statut = 0;
-
 		$object->statut = 0;
+		
 		foreach($object->lines as $line) {
-			//pre($line, true);
+
 			$object->deleteline($line->rowid)."<br />";
+			
 		}	
 
 		foreach($propale->lines as $line) {
-			$object->addline($line->desc, $line->subprice, $line->qty, $line->tva_tx, $line->localtax1_tx, $line->localtax2_tx, $line->fk_product, $line->remise_percent, $line->date_start, $line->date_end);
+			
+			$object->addline($line->desc, $line->subprice, $line->qty, $line->tva_tx, $line->localtax1_tx, $line->localtax2_tx, $line->fk_product, $line->remise_percent);
+			
 		}
 		
 		$object->set_draft($user); // Pour pouvoir modifier les dates, le statut doit être à 0
@@ -152,6 +171,9 @@ class ActionsPropalehistory
 		$object->set_date_livraison($user, $propale->date_livraison);
 		$object->set_echeance($user, $propale->fin_validite);
 		$object->set_ref_client($user, $propale->ref_client);
+		$object->set_demand_reason($user, $propale->demand_reason_id);
+		$object->setPaymentMethods($propale->mode_reglement_id);
+		$object->setPaymentTerms($propale->cond_reglement_id);
 		$object->valid($user);
 		
 		header('Location: '.dol_buildpath('/comm/propal.php?id='.$_REQUEST['id'], 1));

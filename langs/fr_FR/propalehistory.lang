@@ -1,5 +1,5 @@
 Module104090Name = Propale-Historique
 Module104090Desc = Module permettant d'historiser les différentes versions de propositions faites à un client
-HistoryVersionSuccessfullDelete=Version historisée a été supprimée avec succès 
+HistoryVersionSuccessfullDelete=Version historisée supprimée avec succès 
 HistoryVersionSuccessfullArchived=Version de proposition archivée avec succès
 HistoryVersionSuccessfullRestored=Version de proposition restaurée avec succès

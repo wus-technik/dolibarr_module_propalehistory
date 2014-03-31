@@ -103,7 +103,6 @@ class ActionsPropalehistory
 			$object->id = $_REQUEST['id'];
 									
 		} elseif($actionATM == 'createVersion') {
-			
 			$this->archiverPropale($ATMdb, $object);
 			
 		} elseif($actionATM == 'restaurer') {
@@ -133,9 +132,7 @@ class ActionsPropalehistory
 		$newVersionPropale->serialized_parent_propale = serialize($object);
 		$newVersionPropale->date_version = dol_now();
 		$newVersionPropale->fk_propale = $object->id;
-		
 		$newVersionPropale->save($ATMdb);
-		
 		?>
 			<script language="javascript">
 				document.location.href="<?php echo dirname($_SERVER['PHP_SELF'])?>/propal.php?id=<?php echo $_REQUEST['id']?>&mesg=<?php echo $langs->transnoentities('HistoryVersionSuccessfullArchived') ?>";

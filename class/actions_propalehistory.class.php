@@ -25,7 +25,7 @@ class ActionsPropalehistory
 					?>
 						<script type="text/javascript">
 							$(document).ready(function() {
-								$('div.tabsAction').html('<?='<div><a id="butRestaurer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=restaurer&idVersion='.$_REQUEST['idVersion'].'">Restaurer</a><a id="butSupprimer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=supprimer&idVersion='.$_REQUEST['idVersion'].'">Supprimer</a></div>'?>');
+								$('div.tabsAction').html('<?php echo '<div><a id="butRestaurer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=restaurer&idVersion='.$_REQUEST['idVersion'].'">Restaurer</a><a id="butSupprimer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=supprimer&idVersion='.$_REQUEST['idVersion'].'">Supprimer</a></div>'?>');
 								$('#butRestaurer').insertAfter('#voir');
 								$('#butSupprimer').insertBefore('#voir');
 								$('#builddoc_form').hide();
@@ -60,7 +60,14 @@ class ActionsPropalehistory
 		define('INC_FROM_DOLIBARR', true);
 		dol_include_once("/propalehistory/config.php");
 		dol_include_once("/comm/propal/class/propal.class.php");
-		require_once("propaleHist.class.php");
+		dol_include_once('/propalehistory/class/propaleHist.class.php');
+		
+		
+		if(isset($_REQUEST['mesg'])) {
+		
+			setEventMessage($_REQUEST['mesg']);
+		
+		}
 		
 		$ATMdb = new TPDOdb;
 		
@@ -97,11 +104,11 @@ class ActionsPropalehistory
 									
 		} elseif($actionATM == 'createVersion') {
 			
-			$this->archiverPropale($object);
+			$this->archiverPropale($ATMdb, $object);
 			
 		} elseif($actionATM == 'restaurer') {
 			
-			$this->restaurerPropale($object);
+			$this->restaurerPropale($ATMdb, $object);
 			
 		} elseif($actionATM == 'supprimer') {
 			
@@ -111,16 +118,15 @@ class ActionsPropalehistory
 
 			?>
 				<script language="javascript">
-					document.location.href="<?=dirname($_SERVER['PHP_SELF'])?>/propal.php?id=" + <?=$_REQUEST['id']?>;
+					document.location.href="<?php echo dirname($_SERVER['PHP_SELF'])?>/propal.php?id=<?php echo $_REQUEST['id']?>&mesg=<?php echo $langs->transnoentities('HistoryVersionSuccessfullDelete') ?>";
 				</script>
 			<?
 					
 		}
 	} 
 
-	function archiverPropale(&$object) {
-		
-		$ATMdb = new TPDOdb;
+	function archiverPropale(&$ATMdb, &$object) {
+		global $langs;
 		
 		$newVersionPropale = new TPropaleHist;
 		
@@ -132,7 +138,7 @@ class ActionsPropalehistory
 		
 		?>
 			<script language="javascript">
-				document.location.href="<?=dirname($_SERVER['PHP_SELF'])?>/propal.php?id=" + <?=$_REQUEST['id']?>;
+				document.location.href="<?php echo dirname($_SERVER['PHP_SELF'])?>/propal.php?id=<?php echo $_REQUEST['id']?>&mesg=<?php echo $langs->transnoentities('HistoryVersionSuccessfullArchived') ?>";
 			</script>
 		<?
 		
@@ -142,11 +148,10 @@ class ActionsPropalehistory
 
 	}
 	
-	function restaurerPropale(&$object) {
+	function restaurerPropale(&$ATMdb, &$object) {
 		
-		global $db, $user;
-		$ATMdb = new TPDOdb;
-
+		global $db, $user,$langs;
+		 
 		$versionPropale = new TPropaleHist;
 		$versionPropale->load($ATMdb, $_REQUEST['idVersion']);
 		$propale = unserialize($versionPropale->serialized_parent_propale);
@@ -176,60 +181,7 @@ class ActionsPropalehistory
 		$object->setPaymentTerms($propale->cond_reglement_id);
 		$object->valid($user);
 		
-		header('Location: '.dol_buildpath('/comm/propal.php?id='.$_REQUEST['id'], 1));
-
-	}
-	
-	// Ancienne version
-	function restaurerPropale2(&$object) {
-		
-		global $db, $user;
-		$ATMdb = new TPDOdb;
-		
-		$versionPropale = new TPropaleHist;
-		$versionPropale->load($ATMdb, $_REQUEST['idVersion']);
-		$propale = unserialize($versionPropale->serialized_parent_propale);
-		$propale->statut = 0;
-		
-		$this->archiverPropale($object);
-				
-		$ancienID = $object->id;
-		$ancienneRef = $object->ref;
-						
-		$object->delete($user);
-		
-		$propale->__construct($db, $propale->socid);
-		$propale->create($user);
-		$propale->valid($user);
-		
-		// On récupère la référence de la propale une fois validée car la fonction valid() ne stocke pas la nouvelle ref dans l'objet...
-		$sql = "SELECT rowid, ref";
-		$sql.= " FROM ".MAIN_DB_PREFIX."propal";
-		$sql.= " WHERE rowid = ".$propale->id;
-		$resql = $db->query($sql);
-		$resql = $resql->fetch_object();
-		$nouvelID = $resql->rowid;
-		$nouvelleRef = $resql->ref;
-
-		// On remet la même référence qu'au début
-		$sql = "UPDATE ".MAIN_DB_PREFIX."propal";
-		$sql.= " SET ref = '".$ancienneRef;
-		$sql.= "' WHERE ref = '".$nouvelleRef."'";
-		$resql = $db->query($sql);
-		
-		// On met à jour le champ fk_propale de la table llx_propale_history pour chaque version de la propale concernée
-		$sql = "UPDATE ".MAIN_DB_PREFIX."propale_history";
-		$sql.= " SET fk_propale = ".$nouvelID;
-		$sql.= " WHERE fk_propale = ".$ancienID;
-		$resql = $db->query($sql);
-		
-		?>
-			<script language="javascript">
-				alert('Restauration effectuée avec succès !');
-				document.location.href="<?=dirname($_SERVER['PHP_SELF'])?>/propal.php?id=" + <?=$nouvelID?>;
-				jNotify('ok');
-			</script>
-		<?
+		header('Location: '.dol_buildpath('/comm/propal.php?id='.$_REQUEST['id'].'&mesg='.$langs->transnoentities('HistoryVersionSuccessfullRestored'), 1));
 
 	}
 	

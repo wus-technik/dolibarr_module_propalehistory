@@ -1,0 +1,5 @@
+Module104090Name = Propale-History
+Module104090Desc = This module allows you to historize versions of proposals
+HistoryVersionSuccessfullDelete = Version was deleted successfully
+HistoryVersionSuccessfullArchived = Version proposal archived successfully
+HistoryVersionSuccessfullRestored = Version proposal successfully restored

@@ -1,4 +1,4 @@
-<?
+<?php
 	class TPropaleHist extends TObjetStd {
 		
 		function __construct() {

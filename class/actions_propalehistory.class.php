@@ -32,7 +32,8 @@ class ActionsPropalehistory
 							})
 						</script>
 					
-					<?	
+					<?php
+					
 					$this->listeVersions($db, $object);			
 				} elseif($actionATM == 'createVersion') {
 					$this->listeVersions($db, $object);
@@ -44,7 +45,7 @@ class ActionsPropalehistory
 								$("#butNewVersion").appendTo('div.tabsAction');
 							})
 						</script>
-					<?
+					<?php
 					$this->listeVersions($db, $object);
 				}
 			}
@@ -119,7 +120,7 @@ class ActionsPropalehistory
 				<script language="javascript">
 					document.location.href="<?php echo dirname($_SERVER['PHP_SELF'])?>/propal.php?id=<?php echo $_REQUEST['id']?>&mesg=<?php echo $langs->transnoentities('HistoryVersionSuccessfullDelete') ?>";
 				</script>
-			<?
+			<?php
 					
 		}
 	} 
@@ -137,7 +138,7 @@ class ActionsPropalehistory
 			<script language="javascript">
 				document.location.href="<?php echo dirname($_SERVER['PHP_SELF'])?>/propal.php?id=<?php echo $_REQUEST['id']?>&mesg=<?php echo $langs->transnoentities('HistoryVersionSuccessfullArchived') ?>";
 			</script>
-		<?
+		<?php
 		
 		/*if($_REQUEST['actionATM'] == 'createVersion') {
 			setEventMessage('Version sauvegardée avec succès.', 'mesgs');
@@ -221,7 +222,7 @@ class ActionsPropalehistory
 						$("#formListe").appendTo('div.tabsAction');
 					})
 				</script>
-			<?
+			<?php
 			}
 	}
      

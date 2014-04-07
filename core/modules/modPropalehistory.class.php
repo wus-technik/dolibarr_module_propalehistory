@@ -109,7 +109,7 @@ class modPropalehistory extends DolibarrModules
 
         // Dependencies
         // List of modules id that must be enabled if this module is enabled
-        $this->depends = array('modCoreatm');
+        $this->depends = array('modAbricot');
         // List of modules id to disable if this one is disabled
         $this->requiredby = array();
         // Minimum version of PHP required by module
@@ -198,8 +198,15 @@ class modPropalehistory extends DolibarrModules
 
         $result = $this->loadTables();
 
-        $url = dol_buildpath('/propalehistory/script/create-maj-base.php', 2);
-        file_get_contents($url);
+		define('INC_FROM_DOLIBARR', true);
+		dol_include_once('/propalehistory/config.php');
+		
+		dol_include_once('/comm/propal/class/propal.class.php'); // TODO don't think is needed, please remove it
+		dol_include_once('/propalehistory/class/propaleHist.class.php');
+		
+		$PDOdb=new TPDOdb;
+		$o=new TPropaleHist;
+		$o->init_db_by_vars($PDOdb);
 
         return $this->_init($sql, $options);
     }

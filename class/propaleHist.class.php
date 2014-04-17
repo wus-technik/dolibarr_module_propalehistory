@@ -6,6 +6,7 @@
 			parent::add_champs('serialized_parent_propale','type=text;index');
 			parent::add_champs('fk_propale','type=entier;index');
 			parent::add_champs('date_version','type=date;');
+			parent::add_champs('total','type=float;');
 			parent::start();
 			parent::_init_vars();
 		}

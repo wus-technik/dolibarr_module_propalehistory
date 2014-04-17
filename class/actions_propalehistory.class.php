@@ -133,6 +133,8 @@ class ActionsPropalehistory
 		$newVersionPropale->serialized_parent_propale = serialize($object);
 		$newVersionPropale->date_version = dol_now();
 		$newVersionPropale->fk_propale = $object->id;
+		$newVersionPropale->total = $object->total_ht;
+		
 		$newVersionPropale->save($ATMdb);
 		?>
 			<script language="javascript">
@@ -185,7 +187,7 @@ class ActionsPropalehistory
 	
 	function listeVersions(&$db, $object) {
 
-		$sql.= " SELECT rowid, date_version, date_cre";
+		$sql.= " SELECT rowid, date_version, date_cre, total";
 		$sql.= " FROM ".MAIN_DB_PREFIX."propale_history";
 		$sql.= " WHERE fk_propale = ".$_REQUEST['id'];
 		$sql.= " ORDER BY 1 ASC";
@@ -206,7 +208,7 @@ class ActionsPropalehistory
 					$selected = "";
 				}
 				echo $selected;
-				print '<option id="'.$row->rowid.'" value="'.$row->rowid.'" '.$selected.'>Version n° '.$i.' du '.date_format(date_create($row->date_cre), "d M. Y").'</option>';
+				print '<option id="'.$row->rowid.'" value="'.$row->rowid.'" '.$selected.'>Version n° '.$i.' de '.price($row->total).'&euro; du '.date_format(date_create($row->date_cre), "d M. Y").'</option>';
 				
 				$i++;
 				

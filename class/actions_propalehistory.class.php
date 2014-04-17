@@ -25,7 +25,7 @@ class ActionsPropalehistory
 					?>
 						<script type="text/javascript">
 							$(document).ready(function() {
-								$('div.tabsAction').html('<?php echo '<div><a id="butRestaurer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=restaurer&idVersion='.$_REQUEST['idVersion'].'">Restaurer</a><a id="butSupprimer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=supprimer&idVersion='.$_REQUEST['idVersion'].'">Supprimer</a></div>'?>');
+								$('div.tabsAction').html('<?php echo '<div><a id="returnCurrent" href="'.dol_buildpath('/comm/propal.php',1).'?id='.$_REQUEST['id'].'">Retour version courante</a> <a id="butRestaurer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=restaurer&idVersion='.$_REQUEST['idVersion'].'">Restaurer</a><a id="butSupprimer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=supprimer&idVersion='.$_REQUEST['idVersion'].'">Supprimer</a></div>'?>');
 								$('#butRestaurer').insertAfter('#voir');
 								$('#butSupprimer').insertBefore('#voir');
 								$('#builddoc_form').hide();
@@ -38,7 +38,7 @@ class ActionsPropalehistory
 				} elseif($actionATM == 'createVersion') {
 					$this->listeVersions($db, $object);
 				} elseif($actionATM == '' && $object->statut == 1) {
-					print '<a id="butNewVersion" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=createVersion">Archiver</a>';
+					print '<a id="butNewVersion" class="butAction" href="'.dol_buildpath('/comm/propal.php',1).'?id='.$_REQUEST['id'].'&actionATM=createVersion">Archiver</a>';
 					?>
 						<script type="text/javascript">
 							$(document).ready(function() {

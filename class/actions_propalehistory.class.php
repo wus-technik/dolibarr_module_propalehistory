@@ -233,7 +233,7 @@ class ActionsPropalehistory
 					$selected = "";
 				}
 				echo $selected;
-				print '<option id="'.$row->rowid.'" value="'.$row->rowid.'" '.$selected.'>Version n° '.$i.' de '.price($row->total).'&euro; du '.date_format(date_create($row->date_cre), "d M. Y").'</option>';
+				print '<option id="'.$row->rowid.'" value="'.$row->rowid.'" '.$selected.'>Version n° '.$i.' de '.price($row->total).'&euro; du '.date_format(date_create($row->date_cre), "d/m/Y").'</option>';
 
 				$i++;
 

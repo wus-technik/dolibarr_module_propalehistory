@@ -14,13 +14,16 @@ class ActionsPropalehistory
 		define('INC_FROM_DOLIBARR', true);
 		dol_include_once("/propalehistory/config.php");
 		dol_include_once("/comm/propal/class/propal.class.php");
-		require_once("propaleHist.class.php");
-		$ATMdb = new TPDOdb;
 		
 		if (in_array('propalcard',explode(':',$parameters['context']))) 
         {
+        	
 	        if($action != 'create' && $action != 'statut') {	
-	        	isset($_REQUEST['actionATM'])?$actionATM = $_REQUEST['actionATM']:$actionATM = '';
+	    		dol_include_once("/propalehistory/class/propaleHist.class.php");
+				$ATMdb = new TPDOdb;
+			
+		
+		    	$actionATM = GETPOST('actionATM');
 				if($actionATM == 'viewVersion') {
 					?>
 						<script type="text/javascript">
@@ -49,6 +52,7 @@ class ActionsPropalehistory
 					$this->listeVersions($db, $object);
 				}
 				else {
+				
 					$this->listeVersions($db, $object);
 				}
 			}
@@ -215,14 +219,14 @@ class ActionsPropalehistory
 
 		$sql.= " SELECT rowid, date_version, date_cre, total";
 		$sql.= " FROM ".MAIN_DB_PREFIX."propale_history";
-		$sql.= " WHERE fk_propale = ".$_REQUEST['id'];
-		$sql.= " ORDER BY 1 ASC";
+		$sql.= " WHERE fk_propale = ".$object->id;
+		$sql.= " ORDER BY rowid ASC";
 		$resql = $db->query($sql);
 
 		if($resql->num_rows>0) {
 			
 			print '<div id="formListe" style="clear:both; margin-top:15px">';
-			print '<form name="formVoirPropale" method="POST" action="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'">';
+			print '<form name="formVoirPropale" method="POST" action="'.dol_buildpath('/comm/propal.php',1).'?id='.$_REQUEST['id'].'">';
 			print '<input type="hidden" name="actionATM" value="viewVersion" />';
 			print '<input type="hidden" name="socid" value="'.$object->socid.'" />';
 			print '<select name="idVersion">';
@@ -255,6 +259,10 @@ class ActionsPropalehistory
 			</script>
 			<?php
 			
-			}
+		}
+		else{
+			
+			null;
+		}
 	}
 }

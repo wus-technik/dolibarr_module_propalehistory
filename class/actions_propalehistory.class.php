@@ -223,46 +223,57 @@ class ActionsPropalehistory
 		$sql.= " ORDER BY rowid ASC";
 		$resql = $db->query($sql);
 
-		if($resql->num_rows>0) {
-			
-			print '<div id="formListe" style="clear:both; margin-top:15px">';
-			print '<form name="formVoirPropale" method="POST" action="'.dol_buildpath('/comm/propal.php',1).'?id='.$_REQUEST['id'].'">';
-			print '<input type="hidden" name="actionATM" value="viewVersion" />';
-			print '<input type="hidden" name="socid" value="'.$object->socid.'" />';
-			print '<select name="idVersion">';
-			$i = 1;
+if(isset($_REQUEST['DEBUG'])) print $sql;
 
-			while($row = $resql->fetch_object()) {
+		if($resql) {
+
+			$num = $db->num_rows($resql);
+
+if(isset($_REQUEST['DEBUG'])) var_dump($db, $resql);
+	
+			if($num>0) {
 				
-				if(isset($_REQUEST['idVersion']) && $_REQUEST['idVersion'] == $row->rowid){
-					$selected = 'selected="selected"';
-				} else {
-					$selected = "";
+				print '<div id="formListe" style="clear:both; margin-top:15px">';
+				print '<form name="formVoirPropale" method="POST" action="'.dol_buildpath('/comm/propal.php',1).'?id='.GETPOST('id','int').'">';
+				print '<input type="hidden" name="actionATM" value="viewVersion" />';
+				print '<input type="hidden" name="socid" value="'.$object->socid.'" />';
+				print '<select name="idVersion">';
+				$i = 1;
+	
+				while($row = $db->fetch_object()) {
+					
+					if(isset($_REQUEST['idVersion']) && $_REQUEST['idVersion'] == $row->rowid){
+						$selected = 'selected="selected"';
+					} else {
+						$selected = "";
+					}
+					echo $selected;
+					print '<option id="'.$row->rowid.'" value="'.$row->rowid.'" '.$selected.'>Version n° '.$i.' de '.price($row->total).'&euro; du '.date_format(date_create($row->date_cre), "d/m/Y").'</option>';
+	
+					$i++;
+	
 				}
-				echo $selected;
-				print '<option id="'.$row->rowid.'" value="'.$row->rowid.'" '.$selected.'>Version n° '.$i.' de '.price($row->total).'&euro; du '.date_format(date_create($row->date_cre), "d/m/Y").'</option>';
-
-				$i++;
-
+				
+				print '</select>';
+				print '<input class="butAction" id="voir" value="Visualiser" type="SUBMIT" />';
+				print '</form>';
+				print '</div>';
+				
+				?>
+				<script type="text/javascript">
+					$(document).ready(function(){
+						$("#formListe").appendTo('div.tabsAction');
+					})
+				</script>
+				<?php
+				
+			}
+			else{
+				
+				null;
 			}
 			
-			print '</select>';
-			print '<input class="butAction" id="voir" value="Visualiser" type="SUBMIT" />';
-			print '</form>';
-			print '</div>';
 			
-			?>
-			<script type="text/javascript">
-				$(document).ready(function(){
-					$("#formListe").appendTo('div.tabsAction');
-				})
-			</script>
-			<?php
-			
-		}
-		else{
-			
-			null;
 		}
 	}
 }

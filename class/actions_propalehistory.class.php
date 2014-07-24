@@ -48,6 +48,9 @@ class ActionsPropalehistory
 					<?php
 					$this->listeVersions($db, $object);
 				}
+				else {
+					$this->listeVersions($db, $object);
+				}
 			}
 
 		}

@@ -105,8 +105,10 @@ class ActionsPropalehistory
 			$object = new PropalHist($db, $object->socid);
 			foreach($propal as $k=>$v) $object->{$k} = $v;
 			
-			/*$object = $tmp;
-			$object->__construct($db, $object->socid);*/
+			foreach($object->lines as &$line) {
+				$line->description  = $line->desc;
+			}
+			
 			$object->id = $_REQUEST['id'];
 
 		} elseif($actionATM == 'createVersion') {
@@ -240,7 +242,7 @@ if(isset($_REQUEST['DEBUG'])) var_dump($db, $resql);
 				print '<select name="idVersion">';
 				$i = 1;
 	
-				while($row = $db->fetch_object()) {
+				while($row = $db->fetch_object($resql)) {
 					
 					if(isset($_REQUEST['idVersion']) && $_REQUEST['idVersion'] == $row->rowid){
 						$selected = 'selected="selected"';

@@ -110,7 +110,7 @@ class ActionsPropalehistory
 			}
 			
 			$object->id = $_REQUEST['id'];
-
+			$object->db = $db;
 		} elseif($actionATM == 'createVersion') {
 			
 			$this->archiverPropale($ATMdb, $object);

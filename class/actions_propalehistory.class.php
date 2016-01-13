@@ -138,6 +138,8 @@ class ActionsPropalehistory
 	{
 		global $langs;
 
+		$this->archivePDF($object);
+		
 		$newVersionPropale = new TPropaleHist;
 
 		$newVersionPropale->serialized_parent_propale = serialize($object);
@@ -152,10 +154,39 @@ class ActionsPropalehistory
 			</script>
 		<?php
 		
+		
 		/*if($_REQUEST['actionATM'] == 'createVersion') {
 			setEventMessage('Version sauvegardée avec succès.', 'mesgs');
 		}*/
 
+	}
+	
+	function archivePDF(&$object)
+	{
+		$ok = 1;
+		
+		if ($object->entity > 1) {
+			$filename = DOL_DATA_ROOT . '/' . $object->entity . '/propale/' . $object->ref . '/' .$object->ref;
+			$path = DOL_DATA_ROOT . '/' . $object->entity . '/propale/' . $object->ref . '/' .$object->ref . '.pdf';
+		} 
+		else {
+			$filename = DOL_DATA_ROOT . '/propale/' . $object->ref . '/' .$object->ref . '.pdf';
+			$path = DOL_DATA_ROOT . '/propale/' . $object->ref . '/' .$object->ref . '.pdf';
+		}
+		
+		if (!is_file($path)) $ok = $this->generatePDF($object);
+		
+		if ($ok > 0)
+		{
+			exec('cp "'.$path.'" "'.$filename.'-'.time().'.pdf"');
+		}
+	}
+	
+	function generatePDF(&$object)
+	{
+		global $conf,$langs;
+		
+		return $object->generateDocument($conf->global->PROPALE_ADDON_PDF, $langs, 0, 0, 0);
 	}
 	
 	function restaurerPropale(&$ATMdb, &$object) {

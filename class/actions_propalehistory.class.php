@@ -163,14 +163,23 @@ class ActionsPropalehistory
 	
 	function archivePDF(&$object)
 	{
-		$ok = 1;
+		global $db;
 		
+		$sql.= " SELECT count(*) as nb";
+		$sql.= " FROM ".MAIN_DB_PREFIX."propale_history";
+		$sql.= " WHERE fk_propale = ".$object->id;
+		$resql = $db->query($sql);
+		
+		$nb=1;
+		if ($resql && ($row = $db->fetch_object($resql))) $nb = $row->nb + 1;
+		
+		$ok = 1;
 		if ($object->entity > 1) {
 			$filename = DOL_DATA_ROOT . '/' . $object->entity . '/propale/' . $object->ref . '/' .$object->ref;
 			$path = DOL_DATA_ROOT . '/' . $object->entity . '/propale/' . $object->ref . '/' .$object->ref . '.pdf';
 		} 
 		else {
-			$filename = DOL_DATA_ROOT . '/propale/' . $object->ref . '/' .$object->ref . '.pdf';
+			$filename = DOL_DATA_ROOT . '/propale/' . $object->ref . '/' .$object->ref;
 			$path = DOL_DATA_ROOT . '/propale/' . $object->ref . '/' .$object->ref . '.pdf';
 		}
 		
@@ -178,7 +187,7 @@ class ActionsPropalehistory
 		
 		if ($ok > 0)
 		{
-			exec('cp "'.$path.'" "'.$filename.'-'.time().'.pdf"');
+			exec('cp "'.$path.'" "'.$filename.'-'.$nb.'.pdf"');
 		}
 	}
 	

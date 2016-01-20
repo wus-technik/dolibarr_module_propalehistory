@@ -116,7 +116,7 @@ class InterfacePropalehistory
         // Data and type of action are stored into $object and $action
         // Users
         $db=&$this->db;
-		echo $action.'<br>';
+		//echo $action.'<br>';
         if ($action == 'PROPAL_VALIDATE' && $conf->global->PROPALEHISTORY_AUTO_ARCHIVE) {
 
 			define('INC_FROM_DOLIBARR', true);

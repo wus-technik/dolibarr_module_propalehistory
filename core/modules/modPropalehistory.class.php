@@ -105,7 +105,7 @@ class modPropalehistory extends DolibarrModules
 
         // Config pages. Put here list of php pages
         // stored into mymodule/admin directory, used to setup module.
-        $this->config_page_url = false;
+        $this->config_page_url = array("propalehistory_setup.php@propalehistory");
 
         // Dependencies
         // List of modules id that must be enabled if this module is enabled

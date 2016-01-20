@@ -4,3 +4,6 @@ HistoryVersionSuccessfullDelete=Version historisée supprimée avec succès
 HistoryVersionSuccessfullArchived=Version de proposition archivée avec succès
 HistoryVersionSuccessfullRestored=Version de proposition restaurée avec succès
 AbricotNotFound=Le module complémentaire gratuit Abricot ne semble pas installé dans votre environnement mais est nécessaire pour utiliser ce module. Merci de le télécharger à l'adresse suivante
+
+
+AutoArchive=Archiver automatiquement une proposition commerciale lors de sa validation

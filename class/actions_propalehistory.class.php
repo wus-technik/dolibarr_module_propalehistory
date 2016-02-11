@@ -100,7 +100,7 @@ class ActionsPropalehistory
 			$version = new TPropaleHist;
 			$version->load($ATMdb, $_REQUEST['idVersion']);
 
-			$propal = unserialize($version->serialized_parent_propale);
+			$propal = $version->getObject();
 
 			$object = new PropalHist($db, $object->socid);
 			foreach($propal as $k=>$v) $object->{$k} = $v;

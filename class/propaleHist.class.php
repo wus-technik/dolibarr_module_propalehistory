@@ -23,6 +23,14 @@
 			parent::delete($ATMdb);
 		}
 		
+		function getObject() {
+			
+			$propal = unserialize($this->serialized_parent_propale);
+            if($propal === false) unserialize(utf8_decode($this->serialized_parent_propale));
+			
+			return $propal;
+		}
+		
 		static function archiverPropale(&$ATMdb, &$object)
 		{
 			global $langs;
@@ -93,7 +101,9 @@
 	
 			$versionPropale = new TPropaleHist;
 			$versionPropale->load($ATMdb, $_REQUEST['idVersion']);
-			$propale = unserialize($versionPropale->serialized_parent_propale);
+			
+			$propale = $versionPropale->getObject();
+			
 			$propale->statut = 0;
 			$object->statut = 0;
 	

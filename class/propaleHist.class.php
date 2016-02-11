@@ -26,7 +26,7 @@
 		function getObject() {
 			
 			$propal = unserialize($this->serialized_parent_propale);
-            if($propal === false) unserialize(utf8_decode($this->serialized_parent_propale));
+		        if($propal === false) $propal = unserialize(utf8_decode($this->serialized_parent_propale));
 			
 			return $propal;
 		}

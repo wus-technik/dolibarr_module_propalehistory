@@ -49,12 +49,25 @@ class ActionsPropalehistory
 							})
 						</script>
 					<?php
-					TPropaleHist::listeVersions($db, $object);
+					$num = TPropaleHist::listeVersions($db, $object);
 				}
 				else {
 				
-					TPropaleHist::listeVersions($db, $object);
+					$num = TPropaleHist::listeVersions($db, $object);
+					
+					
 				}
+				
+				if(!empty($num)) {
+					?>
+						<script type="text/javascript">
+							$("a#comm").first().append(" / v. <?php echo $num +1 ?>");
+						console.log($("a#comm").first());
+						</script>
+					<?php
+					
+				}
+				
 			}
 
 		}
@@ -63,7 +76,23 @@ class ActionsPropalehistory
 	}
 
 	function beforePDFCreation($parameters, &$object, &$action, $hookmanager) {
-      	global $langs,$db, $user;
+      	global $langs,$db, $user,$conf;
+
+		if(!empty($conf->global->PROPALEHISTORY_SHOW_VERSION_PDF)) {
+			//var_dump($object);exit;
+			
+			define('INC_FROM_DOLIBARR', true);
+			dol_include_once("/propalehistory/config.php");
+			dol_include_once("/comm/propal/class/propal.class.php");
+			dol_include_once('/propalehistory/class/propaleHist.class.php');
+				
+			$TVersion = TPropaleHist::getVersions($db, $object->id);
+			$num = count($TVersion);
+			if($num>0) {
+				$object->ref .='/'.($num+1);	
+			} 
+			 
+		}
 
 		
 

@@ -47,7 +47,7 @@
 			$newVersionPropale->save($ATMdb);
 			?>
 				<script language="javascript">
-					document.location.href="<?php echo dirname($_SERVER['PHP_SELF'])?>/propal.php?id=<?php echo $_REQUEST['id']?>&mesg=<?php echo $langs->transnoentities('HistoryVersionSuccessfullArchived') ?>";
+					document.location.href="<?php echo $_SERVER['PHP_SELF'] ?>?id=<?php echo $_REQUEST['id']?>&mesg=<?php echo $langs->transnoentities('HistoryVersionSuccessfullArchived') ?>";
 				</script>
 			<?php
 			
@@ -152,7 +152,7 @@
 			$object->setPaymentTerms($propale->cond_reglement_id);
 			$object->valid($user);
 	
-			header('Location: '.dol_buildpath('/comm/propal.php?id='.$_REQUEST['id'].'&mesg='.$langs->transnoentities('HistoryVersionSuccessfullRestored'), 1));
+			header('Location: '.$_SERVER['PHP_SELF'].'?id='.$_REQUEST['id'].'&mesg='.$langs->transnoentities('HistoryVersionSuccessfullRestored'));
 	
 		}
 

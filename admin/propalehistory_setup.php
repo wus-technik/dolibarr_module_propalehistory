@@ -107,20 +107,32 @@ if($ok) {
 	print '<td align="center" width="100">'.$langs->trans("Value").'</td>'."\n";
 	
 	// Display convert button on proposal
-	if($conf->propal->enabled) {
-		$var=!$var;
-		print '<tr '.$bc[$var].'>';
-		print '<td>'.$langs->trans("AutoArchive").'</td>';
-		print '<td align="center" width="20">&nbsp;</td>';
-		print '<td align="right" width="300">';
-		print '<form method="POST" action="'.$_SERVER['PHP_SELF'].'">';
-		print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
-		print '<input type="hidden" name="action" value="set_PROPALEHISTORY_AUTO_ARCHIVE">';
-		print $form->selectyesno("PROPALEHISTORY_AUTO_ARCHIVE",$conf->global->PROPALEHISTORY_AUTO_ARCHIVE,1);
-		print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
-		print '</form>';
-		print '</td></tr>';
-	}
+	$var=!$var;
+	print '<tr '.$bc[$var].'>';
+	print '<td>'.$langs->trans("AutoArchive").'</td>';
+	print '<td align="center" width="20">&nbsp;</td>';
+	print '<td align="right" width="300">';
+	print '<form method="POST" action="'.$_SERVER['PHP_SELF'].'">';
+	print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
+	print '<input type="hidden" name="action" value="set_PROPALEHISTORY_AUTO_ARCHIVE">';
+	print $form->selectyesno("PROPALEHISTORY_AUTO_ARCHIVE",$conf->global->PROPALEHISTORY_AUTO_ARCHIVE,1);
+	print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
+	print '</form>';
+	print '</td></tr>';
+
+	$var=!$var;
+	print '<tr '.$bc[$var].'>';
+	print '<td>'.$langs->trans("PROPALEHISTORY_SHOW_VERSION_PDF").'</td>';
+	print '<td align="center" width="20">&nbsp;</td>';
+	print '<td align="right" width="300">';
+	print '<form method="POST" action="'.$_SERVER['PHP_SELF'].'">';
+	print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
+	print '<input type="hidden" name="action" value="set_PROPALEHISTORY_SHOW_VERSION_PDF">';
+	print $form->selectyesno("PROPALEHISTORY_SHOW_VERSION_PDF",$conf->global->PROPALEHISTORY_SHOW_VERSION_PDF,1);
+	print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
+	print '</form>';
+	print '</td></tr>';
+
 	
 } else {
 	print $langs->trans('ModuleNeedProposalOrOrderModule');

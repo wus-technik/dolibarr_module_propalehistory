@@ -38,7 +38,7 @@
 			TPropaleHist::archivePDF($object);
 			
 			$newVersionPropale = new TPropaleHist;
-	
+			
 			$newVersionPropale->serialized_parent_propale = serialize($object);
 			$newVersionPropale->date_version = dol_now();
 			$newVersionPropale->fk_propale = $object->id;
@@ -112,7 +112,7 @@
 				$object->deleteline($line->rowid)."<br />";
 	
 			}	
-	
+			
 			foreach($propale->lines as $line) {
 				
 				$object->addline(
@@ -136,7 +136,7 @@
 					$line->label,
 					$line->date_start,
 					$line->date_end,
-					$line->array_option
+					$line->array_options
 				);
 	
 			}

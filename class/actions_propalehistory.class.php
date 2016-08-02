@@ -99,16 +99,20 @@ class ActionsPropalehistory
 			
 			$version = new TPropaleHist;
 			$version->load($ATMdb, $_REQUEST['idVersion']);
-
+			
 			$propal = $version->getObject();
+			//pre($propal,true);
 
 			$object = new PropalHist($db, $object->socid);
 			foreach($propal as $k=>$v) $object->{$k} = $v;
 			
 			foreach($object->lines as &$line) {
 				$line->description  = $line->desc;
+				$line->db =  $db;
+				//$line->fetch_optionals();
 			}
 			
+			//pre($object,true);
 			$object->id = $_REQUEST['id'];
 			$object->db = $db;
 		} elseif($actionATM == 'createVersion') {
@@ -121,7 +125,7 @@ class ActionsPropalehistory
 
 		} elseif($actionATM == 'supprimer') {
 			
-			$version = new TPropaleHist;	
+			$version = new TPropaleHist;
 			$version->load($ATMdb, $_REQUEST['idVersion']);
 			$version->delete($ATMdb);
 

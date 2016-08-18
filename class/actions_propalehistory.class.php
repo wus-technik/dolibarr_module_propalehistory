@@ -28,7 +28,7 @@ class ActionsPropalehistory
 					?>
 						<script type="text/javascript">
 							$(document).ready(function() {
-								$('div.tabsAction').html('<?php echo '<div><a id="returnCurrent" href="'.dol_buildpath('/comm/propal.php',1).'?id='.$_REQUEST['id'].'">Retour version courante</a> <a id="butRestaurer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=restaurer&idVersion='.$_REQUEST['idVersion'].'">Restaurer</a><a id="butSupprimer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=supprimer&idVersion='.$_REQUEST['idVersion'].'">Supprimer</a></div>'?>');
+								$('div.tabsAction').html('<?php echo '<div><a id="returnCurrent" href="'.$_SERVER['PHP_SELF'].'?id='.$_REQUEST['id'].'">Retour version courante</a> <a id="butRestaurer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=restaurer&idVersion='.$_REQUEST['idVersion'].'">Restaurer</a><a id="butSupprimer" class="butAction" href="'.DOL_URL_ROOT.'/comm/propal.php?id='.$_REQUEST['id'].'&actionATM=supprimer&idVersion='.$_REQUEST['idVersion'].'">Supprimer</a></div>'?>');
 								$('#butRestaurer').insertAfter('#voir');
 								$('#butSupprimer').insertBefore('#voir');
 								$('#builddoc_form').hide();
@@ -41,7 +41,7 @@ class ActionsPropalehistory
 				} elseif($actionATM == 'createVersion') {
 					TPropaleHist::listeVersions($db, $object);
 				} elseif($actionATM == '' && $object->statut == 1) {
-					print '<a id="butNewVersion" class="butAction" href="'.dol_buildpath('/comm/propal.php',1).'?id='.$_REQUEST['id'].'&actionATM=createVersion">Archiver</a>';
+					print '<a id="butNewVersion" class="butAction" href="'.$_SERVER['PHP_SELF'].'?id='.$_REQUEST['id'].'&actionATM=createVersion">Archiver</a>';
 					?>
 						<script type="text/javascript">
 							$(document).ready(function() {
@@ -49,17 +49,53 @@ class ActionsPropalehistory
 							})
 						</script>
 					<?php
-					TPropaleHist::listeVersions($db, $object);
+					$num = TPropaleHist::listeVersions($db, $object);
 				}
 				else {
 				
-					TPropaleHist::listeVersions($db, $object);
+					$num = TPropaleHist::listeVersions($db, $object);
+					
+					
 				}
+				
+				if(!empty($num)) {
+					?>
+						<script type="text/javascript">
+							$("a#comm").first().append(" / v. <?php echo $num +1 ?>");
+						console.log($("a#comm").first());
+						</script>
+					<?php
+					
+				}
+				
 			}
 
 		}
 		
 		return 0;
+	}
+
+	function beforePDFCreation($parameters, &$object, &$action, $hookmanager) {
+      	global $langs,$db, $user,$conf;
+
+		if(!empty($conf->global->PROPALEHISTORY_SHOW_VERSION_PDF)) {
+			//var_dump($object);exit;
+			
+			define('INC_FROM_DOLIBARR', true);
+			dol_include_once("/propalehistory/config.php");
+			dol_include_once("/comm/propal/class/propal.class.php");
+			dol_include_once('/propalehistory/class/propaleHist.class.php');
+				
+			$TVersion = TPropaleHist::getVersions($db, $object->id);
+			$num = count($TVersion);
+			if($num>0) {
+				$object->ref .='/'.($num+1);	
+			} 
+			 
+		}
+
+		
+
 	}
 
 	function doActions($parameters, &$object, &$action, $hookmanager) {
@@ -99,16 +135,20 @@ class ActionsPropalehistory
 			
 			$version = new TPropaleHist;
 			$version->load($ATMdb, $_REQUEST['idVersion']);
-
+			
 			$propal = $version->getObject();
+			//pre($propal,true);
 
 			$object = new PropalHist($db, $object->socid);
 			foreach($propal as $k=>$v) $object->{$k} = $v;
 			
 			foreach($object->lines as &$line) {
 				$line->description  = $line->desc;
+				$line->db =  $db;
+				//$line->fetch_optionals();
 			}
 			
+			//pre($object,true);
 			$object->id = $_REQUEST['id'];
 			$object->db = $db;
 		} elseif($actionATM == 'createVersion') {
@@ -121,13 +161,13 @@ class ActionsPropalehistory
 
 		} elseif($actionATM == 'supprimer') {
 			
-			$version = new TPropaleHist;	
+			$version = new TPropaleHist;
 			$version->load($ATMdb, $_REQUEST['idVersion']);
 			$version->delete($ATMdb);
 
 			?>
 				<script language="javascript">
-					document.location.href="<?php echo dirname($_SERVER['PHP_SELF'])?>/propal.php?id=<?php echo $_REQUEST['id']?>&mesg=<?php echo $langs->transnoentities('HistoryVersionSuccessfullDelete') ?>";
+					document.location.href="<?php echo $_SERVER['PHP_SELF'] ?>?id=<?php echo $_REQUEST['id']?>&mesg=<?php echo $langs->transnoentities('HistoryVersionSuccessfullDelete') ?>";
 				</script>
 			<?php
 					

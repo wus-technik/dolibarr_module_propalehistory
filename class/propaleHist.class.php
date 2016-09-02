@@ -179,7 +179,7 @@
 		}
 
 		static function listeVersions(&$db, $object) {
-
+			global $langs,$conf;
 			$TVersion = self::getVersions($db, $object->id);
 
 
@@ -201,8 +201,8 @@
 					} else {
 						$selected = "";
 					}
-					echo $selected;
-					print '<option id="'.$row->rowid.'" value="'.$row->rowid.'" '.$selected.'>Version n° '.$i.' de '.price($row->total).'&euro; du '.date_format(date_create($row->date_cre), "d/m/Y").'</option>';
+					
+					print '<option id="'.$row->rowid.'" value="'.$row->rowid.'" '.$selected.'>Version n° '.$i.' de '.price($row->total).' '.$langs->getCurrencySymbol($conf->currency,0).' du '.date_format(date_create($row->date_cre), "d/m/Y").'</option>';
 
 					$i++;
 

@@ -185,10 +185,15 @@
 
 			$num = count($TVersion);
 
+			$url=DOL_URL_ROOT.'/comm/propal.php';
+			if ((float) DOL_VERSION >= 4.0) {
+			    $url=DOL_URL_ROOT.'/comm/propal/card.php';
+			}
+			
 			if($num>0) {
 
 				print '<div id="formListe" style="clear:both; margin:15px 0">';
-				print '<form name="formVoirPropale" method="POST" action="'.dol_buildpath('/comm/propal.php',1).'?id='.GETPOST('id','int').'">';
+				print '<form name="formVoirPropale" method="POST" action="'.$url.'?id='.GETPOST('id','int').'">';
 				print '<input type="hidden" name="actionATM" value="viewVersion" />';
 				print '<input type="hidden" name="socid" value="'.$object->socid.'" />';
 				print '<select name="idVersion">';
@@ -202,7 +207,7 @@
 						$selected = "";
 					}
 					
-					print '<option id="'.$row->rowid.'" value="'.$row->rowid.'" '.$selected.'>Version n° '.$i.' de '.price($row->total).' '.$langs->getCurrencySymbol($conf->currency,0).' du '.date_format(date_create($row->date_cre), "d/m/Y").'</option>';
+					print '<option id="'.$row->rowid.'" value="'.$row->rowid.'" '.$selected.'>Version n° '.$i.' - '.price($row->total).' '.$langs->getCurrencySymbol($conf->currency,0).' - '.dol_print_date($db->jdate($row->date_cre), "dayhour").'</option>';
 
 					$i++;
 

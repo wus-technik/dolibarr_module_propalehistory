@@ -78,9 +78,18 @@ class ActionsPropalehistory
 		
 		return 0;
 	}
+	
+	function pdf_getLinkedObjects($parameters, &$object, &$action, $hookmanager) {
+		global $langs,$db, $user,$conf, $old_propal_ref;
+		
+		if(!empty($conf->global->PROPALEHISTORY_SHOW_VERSION_PDF) && !empty($old_propal_ref)) {
+			$object->ref = $old_propal_ref;
+			
+		}
+	}
 
 	function beforePDFCreation($parameters, &$object, &$action, $hookmanager) {
-      	global $langs,$db, $user,$conf;
+      	global $langs,$db, $user,$conf, $old_propal_ref;
 
 		if(!empty($conf->global->PROPALEHISTORY_SHOW_VERSION_PDF)) {
 			//var_dump($object);exit;
@@ -93,6 +102,8 @@ class ActionsPropalehistory
 			$TVersion = TPropaleHist::getVersions($db, $object->id);
 			$num = count($TVersion);
 			if($num>0) {
+				$old_propal_ref = $object->ref;
+				
 				$object->ref .='/'.($num+1);	
 			} 
 			 

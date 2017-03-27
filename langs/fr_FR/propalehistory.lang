@@ -12,3 +12,5 @@ PROPALEHISTORY_SHOW_VERSION_PDF=Afficher le numéro de version sur le PDF (à pa
 ArchiveProposal=Archive proposition
 ArchiveProposalCheckboxLabel=Archiver la proposition?
 ConfirmModifyProposal=Confirmer la modification de la proposition
+PROPALEHISTORY_ARCHIVE_ON_MODIFY = Demander l'archivage à la modification d'une proposition
+PropalHistoryAutoArchiveAndArchiveOnModifyCantBeUsedBoth=L'archivage à la validation et la modification ne peuvent être utilisés en même temps.

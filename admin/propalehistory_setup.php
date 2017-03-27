@@ -132,6 +132,19 @@ if($ok) {
 	print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
 	print '</form>';
 	print '</td></tr>';
+	
+	$var=!$var;
+	print '<tr '.$bc[$var].'>';
+	print '<td>'.$langs->trans("PROPALEHISTORY_HIDE_VERSION_ON_TABS").'</td>';
+	print '<td align="center" width="20">&nbsp;</td>';
+	print '<td align="right" width="300">';
+	print '<form method="POST" action="'.$_SERVER['PHP_SELF'].'">';
+	print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
+	print '<input type="hidden" name="action" value="set_PROPALEHISTORY_HIDE_VERSION_ON_TABS">';
+	print $form->selectyesno("PROPALEHISTORY_HIDE_VERSION_ON_TABS",$conf->global->PROPALEHISTORY_HIDE_VERSION_ON_TABS,1);
+	print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
+	print '</form>';
+	print '</td></tr>';
 
 	
 } else {

@@ -113,21 +113,60 @@ class ActionsPropalehistory
 
 	}
 
+	function formConfirm($parameters, &$object, &$action, $hookmanager)
+	{
+		global $langs, $db, $user;
+		
+		if (in_array('propalcard', explode(':', $parameters['context'])))
+		{
+			// Ask if proposal archive wanted
+			if ($action == 'modif') {
+		
+				$formquestion = array(
+					array('type' => 'checkbox', 'name' => 'archive_proposal', 'label' => $langs->trans("ArchiveProposalCheckboxLabel"), 'value' => 1),
+				);
+				$form = new Form($this->db);
+				$formconfirm = $form->formconfirm($_SERVER["PHP_SELF"] . '?id=' . $object->id, $langs->trans('ArchiveProposal'), $langs->trans('ConfirmModifyProposal', $object->ref), 'propalhistory_confirm_modify', $formquestion, 'yes', 1);
+		
+				$this->results = array();
+				$this->resprints = $formconfirm;
+
+				return 1; // replace standard code
+			}
+		}
+	}
+	
+
 	function doActions($parameters, &$object, &$action, $hookmanager) {
-      	global $langs,$db, $user;
+      	global $langs, $db, $user;
 
 		define('INC_FROM_DOLIBARR', true);
 		dol_include_once("/propalehistory/config.php");
 		dol_include_once("/comm/propal/class/propal.class.php");
 		dol_include_once('/propalehistory/class/propaleHist.class.php');
 
+		
 		if(isset($_REQUEST['mesg'])) {
 		
 			setEventMessage($_REQUEST['mesg']);
 
 		}
-		
 		$ATMdb = new TPDOdb;
+		
+		if (in_array('propalcard', explode(':', $parameters['context'])))
+		{
+			// Ask if proposal archive wanted
+			if ($action == 'propalhistory_confirm_modify') {
+				
+				// New version if wanted
+				$archive_proposal = GETPOST('archive_proposal', 'alpha');
+				if ($archive_proposal == 'on') {
+					TPropaleHist::archiverPropale($ATMdb, $object);
+				}
+				$action = 'modify';
+				return 0; // Do standard code
+			}
+		}
 
 		if($_REQUEST['action'] == 'delete'){
 			

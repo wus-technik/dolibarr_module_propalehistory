@@ -33,9 +33,11 @@
 
 		static function archiverPropale(&$ATMdb, &$object)
 		{
-			global $langs;
+			global $conf, $langs;
 
-			TPropaleHist::archivePDF($object);
+			if (!empty($conf->global->PROPALEHISTORY_ARCHIVE_PDF_TOO)) {
+				TPropaleHist::archivePDF($object);				
+			}
 
 			$newVersionPropale = new TPropaleHist;
 

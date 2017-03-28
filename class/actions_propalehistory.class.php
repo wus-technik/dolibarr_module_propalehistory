@@ -10,7 +10,7 @@ class ActionsPropalehistory
       
     function formObjectOptions($parameters, &$object, &$action, $hookmanager) 
     {
-      	global $langs,$db;
+      	global $conf,$langs,$db;
 		define('INC_FROM_DOLIBARR', true);
 		dol_include_once("/propalehistory/config.php");
 		dol_include_once("/comm/propal/class/propal.class.php");
@@ -61,8 +61,7 @@ class ActionsPropalehistory
 					
 					
 				}
-				
-				if(!empty($num)) {
+				if(!empty($num) && ! $conf->global->PROPALEHISTORY_HIDE_VERSION_ON_TABS) {
 					?>
 						<script type="text/javascript">
 							$("a#comm").first().append(" / v. <?php echo $num +1 ?>");

@@ -122,7 +122,9 @@ class modPropalehistory extends DolibarrModules
         // (key, 'chaine', value, desc, visible, 'current' or 'allentities', deleteonunactive)
         // Example:
         $this->const = array(
-        
+        	1 => array('PROPALEHISTORY_AUTO_ARCHIVE', 'chaine', 'Archiver automatiquement une proposition commerciale lors de sa validation', 0, 'current', 0),
+        	2 => array('PROPALEHISTORY_SHOW_VERSION_PDF', 'chaine', 'Afficher le numéro de version sur le PDF (à partir de la 2e)', 0, 'current', 0),
+        	3 => array('PROPALEHISTORY_HIDE_VERSION_ON_TABS', 'chaine', 'Masquer le numéro de version dans les onglets', 0, 'current', 0)
         );
 
         // Array to add new pages in new tabs

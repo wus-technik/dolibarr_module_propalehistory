@@ -9,5 +9,11 @@ AbricotNotFound=Le module complémentaire gratuit Abricot ne semble pas install�
 AutoArchive=Archiver automatiquement une proposition commerciale lors de sa validation
 PROPALEHISTORY_SHOW_VERSION_PDF=Afficher le numéro de version sur le PDF (à partir de la 2e)
 
+ArchiveProposal=Archive proposition
+ArchiveProposalCheckboxLabel=Archiver la proposition?
+ConfirmModifyProposal=Confirmer la modification de la proposition
+PROPALEHISTORY_ARCHIVE_ON_MODIFY = Demander l'archivage à la modification d'une proposition
+PropalHistoryAutoArchiveAndArchiveOnModifyCantBeUsedBoth=L'archivage à la validation et la modification ne peuvent être utilisés en même temps.
+
 PROPALEHISTORY_ARCHIVE_PDF_TOO=Archiver aussi le PDF
 PROPALEHISTORY_HIDE_VERSION_ON_TABS=Masquer le numéro de version dans les onglets

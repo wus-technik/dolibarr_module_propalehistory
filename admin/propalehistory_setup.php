@@ -48,8 +48,16 @@ $action = GETPOST('action', 'alpha');
 if (preg_match('/set_(.*)/',$action,$reg))
 {
 	$code=$reg[1];
+	if ($code == 'PROPALEHISTORY_AUTO_ARCHIVE' && ! empty($conf->global->PROPALEHISTORY_ARCHIVE_ON_MODIFY)) {
+		$mesg = $langs->trans('PropalHistoryAutoArchiveAndArchiveOnModifyCantBeUsedBoth');
+		setEventMessages($mesg, array(), 'errors');
+		$_POST['PROPALEHISTORY_AUTO_ARCHIVE'] = 0;
+	}
 	if (dolibarr_set_const($db, $code, GETPOST($code), 'chaine', 0, '', $conf->entity) > 0)
 	{
+		if ($code == 'PROPALEHISTORY_ARCHIVE_ON_MODIFY') {
+			dolibarr_set_const($db, 'PROPALEHISTORY_AUTO_ARCHIVE', 0, 'chaine', 0, '', $conf->entity);
+		}
 		header("Location: ".$_SERVER["PHP_SELF"]);
 		exit;
 	}
@@ -158,6 +166,20 @@ if($ok) {
 	print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
 	print '</form>';
 	print '</td></tr>';
+	
+	$var=!$var;
+	print '<tr '.$bc[$var].'>';
+	print '<td>'.$langs->trans("PROPALEHISTORY_ARCHIVE_ON_MODIFY").'</td>';
+	print '<td align="center" width="20">&nbsp;</td>';
+	print '<td align="right" width="300">';
+	print '<form method="POST" action="'.$_SERVER['PHP_SELF'].'">';
+	print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
+	print '<input type="hidden" name="action" value="set_PROPALEHISTORY_ARCHIVE_ON_MODIFY">';
+	print $form->selectyesno("PROPALEHISTORY_ARCHIVE_ON_MODIFY",$conf->global->PROPALEHISTORY_ARCHIVE_ON_MODIFY,1);
+	print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
+	print '</form>';
+	print '</td></tr>';
+	
 	
 } else {
 	print $langs->trans('ModuleNeedProposalOrOrderModule');

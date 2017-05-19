@@ -61,7 +61,7 @@ class modPropalehistory extends DolibarrModules
         // (where XXX is value of numeric property 'numero' of module)
         $this->description = "Gestion de l'historique des propositions commerciales";
         // Possible values for version are: 'development', 'experimental' or version
-        $this->version = '1.3';
+        $this->version = '1.3.1';
         // Key used in llx_const table to save module status enabled/disabled
         // (where MYMODULE is value of property name of module in uppercase)
         $this->const_name = 'MAIN_MODULE_' . strtoupper($this->name);
@@ -122,9 +122,9 @@ class modPropalehistory extends DolibarrModules
         // (key, 'chaine', value, desc, visible, 'current' or 'allentities', deleteonunactive)
         // Example:
         $this->const = array(
-        	1 => array('PROPALEHISTORY_AUTO_ARCHIVE', 'chaine', 'Archiver automatiquement une proposition commerciale lors de sa validation', 0, 'current', 0),
-        	2 => array('PROPALEHISTORY_SHOW_VERSION_PDF', 'chaine', 'Afficher le numéro de version sur le PDF (à partir de la 2e)', 0, 'current', 0),
-        	3 => array('PROPALEHISTORY_HIDE_VERSION_ON_TABS', 'chaine', 'Masquer le numéro de version dans les onglets', 0, 'current', 0)
+        	1 => array('PROPALEHISTORY_AUTO_ARCHIVE', 'chaine', 0, 'Archiver automatiquement une proposition commerciale lors de sa validation', 0, 'current', 0),
+        	2 => array('PROPALEHISTORY_SHOW_VERSION_PDF', 'chaine', 0, 'Afficher le numéro de version sur le PDF (à partir de la 2e)', 0, 'current', 0),
+        	3 => array('PROPALEHISTORY_HIDE_VERSION_ON_TABS', 'chaine', 0, 'Masquer le numéro de version dans les onglets', 0, 'current', 0)
         );
 
         // Array to add new pages in new tabs

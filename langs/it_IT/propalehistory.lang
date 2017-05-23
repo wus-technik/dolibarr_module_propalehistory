@@ -10,7 +10,7 @@ AutoArchive=Archiviare automaticamente una proposta commerciale alla sua validaz
 PROPALEHISTORY_SHOW_VERSION_PDF=Visualizza il numero di versione sul file PDF (a partire dalla versione 2)
 
 Visualiser=Visualizza
-Archiver=Archivia
+PropaleHistoryArchiver=Archivia
 Supprimer=Elimina
 Restaurer=Recupera
-RetourVersionCourante=Ritorna versione corrente
+ReturnInitialVersion=Ritorna versione corrente

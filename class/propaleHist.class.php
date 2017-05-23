@@ -216,7 +216,7 @@
 				}
 
 				print '</select>';
-				print '<input class="butAction" id="voir" value="Visualiser" type="SUBMIT" />';
+				print '<input class="butAction" id="voir" value="'.$langs->trans('Visualiser').'" type="SUBMIT" />';
 				print '</form>';
 				print '</div>';
 

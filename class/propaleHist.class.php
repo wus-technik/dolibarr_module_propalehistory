@@ -3,35 +3,55 @@
 
 		function __construct() {
 			parent::set_table(MAIN_DB_PREFIX.'propale_history');
-			parent::add_champs('serialized_parent_propale','type=text;index');
-			parent::add_champs('fk_propale','type=entier;index');
-			parent::add_champs('date_version','type=date;');
-			parent::add_champs('total','type=float;');
+			parent::add_champs('serialized_parent_propale',array('type'=>'text'));
+			parent::add_champs('fk_propale',array('type'=>'integer','index'=>true));
+			parent::add_champs('date_version',array('type'=>'date'));
+			parent::add_champs('total',array('type'=>'float'));
 			parent::start();
 			parent::_init_vars();
 		}
 
-		function save(&$db) {
-			parent::save($db);
+		function save(&$PDOdb) {
+			
+		//	$PDOdb->debug =true;
+			parent::save($PDOdb);
 		}
 
-		function load(&$ATMdb,$idVersion, $loadChild = true){
-			parent::load($ATMdb,$idVersion, $loadChild);
+		function load(&$PDOdb,$idVersion, $loadChild = true){
+			
+			parent::load($PDOdb,$idVersion, $loadChild);
 		}
 
-		function delete(&$ATMdb) {
-			parent::delete($ATMdb);
+		function delete(&$PDOdb) {
+			parent::delete($PDOdb);
 		}
 
+		public function setObject(&$object) {
+			global $conf;
+			
+			$code =  serialize($object);
+			
+			if(!empty($conf->global->PROPALEHISTORY_USE_COMPRESS_ARCHIVE)) {
+				$code = base64_encode( gzdeflate($code) );
+			}
+			
+			$this->serialized_parent_propale = $code;
+			
+		}
+		
 		function getObject() {
-
-			$propal = unserialize($this->serialized_parent_propale);
-		        if($propal === false) $propal = unserialize(utf8_decode($this->serialized_parent_propale));
-
+@			$code = gzinflate(base64_decode($this->serialized_parent_propale));
+			if($code === false) {
+				$code = $this->serialized_parent_propale;
+			}
+			
+			$propal = unserialize($code);
+			if($propal === false) $propal = unserialize(utf8_decode($code));
+		    
 			return $propal;
 		}
 
-		static function archiverPropale(&$ATMdb, &$object)
+		static function archiverPropale(&$PDOdb, &$object)
 		{
 			global $conf, $langs;
 
@@ -40,13 +60,13 @@
 			}
 
 			$newVersionPropale = new TPropaleHist;
-
-			$newVersionPropale->serialized_parent_propale = serialize($object);
+			$newVersionPropale->setObject($object);
+			
 			$newVersionPropale->date_version = dol_now();
 			$newVersionPropale->fk_propale = $object->id;
 			$newVersionPropale->total = $object->total_ht;
 
-			$newVersionPropale->save($ATMdb);
+			$newVersionPropale->save($PDOdb);
 			?>
 				<script language="javascript">
 					document.location.href="<?php echo $_SERVER['PHP_SELF'] ?>?id=<?php echo $_REQUEST['id']?>&mesg=<?php echo $langs->transnoentities('HistoryVersionSuccessfullArchived') ?>";
@@ -97,12 +117,12 @@
 			return $object->generateDocument($conf->global->PROPALE_ADDON_PDF, $langs, 0, 0, 0);
 		}
 
-		static function restaurerPropale(&$ATMdb, &$object) {
+		static function restaurerPropale(&$PDOdb, &$object) {
 
 			global $db, $user,$langs;
 
 			$versionPropale = new TPropaleHist;
-			$versionPropale->load($ATMdb, $_REQUEST['idVersion']);
+			$versionPropale->load($PDOdb, $_REQUEST['idVersion']);
 
 			$propale = $versionPropale->getObject();
 

@@ -22,3 +22,5 @@ ReturnInitialVersion=Retour version courante
 PropaleHistoryArchiver=Archiver
 Visualiser=Visualiser
 Restaurer=Restaurer
+
+PROPALEHISTORY_USE_COMPRESS_ARCHIVE=Compression des données en base

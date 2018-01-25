@@ -114,12 +114,12 @@ class ActionsPropalehistory
 
 	function formConfirm($parameters, &$object, &$action, $hookmanager)
 	{
-		global $langs, $db, $user;
+		global $conf, $langs, $db, $user;
 
-		if (in_array('propalcard', explode(':', $parameters['context'])))
+		if (in_array('propalcard', explode(':', $parameters['context'])) && ! empty($conf->global->PROPALEHISTORY_ARCHIVE_ON_MODIFY))
 		{
 			// Ask if proposal archive wanted
-			if ($action == 'modif') {
+			if ($_REQUEST['action'] == 'modif') { // $action peut être changé à 'modif' dans doActions() après l'affichage de la pop-in : on teste $_REQUEST['action'] à la place
 
 				$formquestion = array(
 					array('type' => 'checkbox', 'name' => 'archive_proposal', 'label' => $langs->trans("ArchiveProposalCheckboxLabel"), 'value' => 1),
@@ -137,7 +137,7 @@ class ActionsPropalehistory
 
 
 	function doActions($parameters, &$object, &$action, $hookmanager) {
-      	global $langs, $db, $user;
+		global $conf, $langs, $db, $user;
 
 		define('INC_FROM_DOLIBARR', true);
 		dol_include_once("/propalehistory/config.php");
@@ -152,8 +152,13 @@ class ActionsPropalehistory
 		}
 		$ATMdb = new TPDOdb;
 
-		if (in_array('propalcard', explode(':', $parameters['context'])))
+		if (in_array('propalcard', explode(':', $parameters['context'])) && ! empty($conf->global->PROPALEHISTORY_ARCHIVE_ON_MODIFY))
 		{
+
+			if ($action == 'modif') {
+				return 1; // on saute l'action par défaut en retournant 1, puis on affiche la pop-in dans formConfirm()
+			}
+
 			// Ask if proposal archive wanted
 			if ($action == 'propalhistory_confirm_modify') {
 
@@ -162,7 +167,8 @@ class ActionsPropalehistory
 				if ($archive_proposal == 'on') {
 					TPropaleHist::archiverPropale($ATMdb, $object);
 				}
-				$action = 'modify';
+				$action = 'modif'; // On provoque le repassage-en brouillon
+
 				return 0; // Do standard code
 			}
 		}

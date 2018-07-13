@@ -78,7 +78,7 @@ class ActionsPropalehistory
 		return 0;
 	}
 
-	function pdf_getLinkedObjects($parameters, &$object, &$action, $hookmanager) {
+	function afterPDFCreation($parameters, &$object, &$action, $hookmanager) {
 		global $langs,$db, $user,$conf, $old_propal_ref;
 
 		if(!empty($conf->global->PROPALEHISTORY_SHOW_VERSION_PDF) && !empty($old_propal_ref)) {

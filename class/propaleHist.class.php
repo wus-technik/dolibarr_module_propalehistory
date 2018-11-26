@@ -172,7 +172,9 @@
 			$object->set_demand_reason($user, $propale->demand_reason_id);
 			$object->setPaymentMethods($propale->mode_reglement_id);
 			$object->setPaymentTerms($propale->cond_reglement_id);
-			$object->valid($user);
+			$object->valid($user,1);
+			$object->fetch($object->id); //reload for generatePDF
+			self::generatePDF($object);
 
 			header('Location: '.$_SERVER['PHP_SELF'].'?id='.$_REQUEST['id'].'&mesg='.$langs->transnoentities('HistoryVersionSuccessfullRestored'));
 

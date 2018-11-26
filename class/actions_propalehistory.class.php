@@ -82,8 +82,9 @@ class ActionsPropalehistory
 		global $langs,$db, $user,$conf, $old_propal_ref;
 
 		if(!empty($conf->global->PROPALEHISTORY_SHOW_VERSION_PDF) && !empty($old_propal_ref)) {
-			$object->ref = $old_propal_ref;
-
+			$object_src = $parameters['object'];
+			if ($object_src->element == 'propal') $object_src->ref = $old_propal_ref;
+			else $object->ref = $old_propal_ref;
 		}
 	}
 
@@ -100,6 +101,7 @@ class ActionsPropalehistory
 
 			$TVersion = TPropaleHist::getVersions($db, $object->id);
 			$num = count($TVersion);
+
 			if($num>0) {
 				$old_propal_ref = $object->ref;
 

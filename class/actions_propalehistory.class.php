@@ -91,9 +91,7 @@ class ActionsPropalehistory
 	function beforePDFCreation($parameters, &$object, &$action, $hookmanager) {
       	global $langs,$db, $user,$conf, $old_propal_ref;
 
-      	if(!empty($conf->global->PROPALEHISTORY_SHOW_VERSION_PDF) && in_array('propalcard',explode(':',$parameters['context']))) {
-			//var_dump($object);exit;
-
+      	if(!empty($conf->global->PROPALEHISTORY_SHOW_VERSION_PDF) && in_array('propalcard',explode(':',$parameters['context'])) && empty($object->context['propale_history']['original_ref'])) {
 			define('INC_FROM_DOLIBARR', true);
 			dol_include_once("/propalehistory/config.php");
 			dol_include_once("/comm/propal/class/propal.class.php");
@@ -103,9 +101,8 @@ class ActionsPropalehistory
 			$num = count($TVersion);
 
 			if($num>0) {
-				$old_propal_ref = $object->ref;
-
-				$object->ref .='/'.($num+1);
+                $object->context['propale_history'] = array('original_ref' => $object->ref);
+                $object->ref .= '/' . ($num+1);
 			}
 
 		}

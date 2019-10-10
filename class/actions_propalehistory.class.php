@@ -32,7 +32,7 @@ class ActionsPropalehistory
 					?>
 						<script type="text/javascript">
 							$(document).ready(function() {
-								$('div.tabsAction').html('<?php echo '<div><a id="returnCurrent" href="'.$_SERVER['PHP_SELF'].'?id='.$_REQUEST['id'].'">'.$langs->trans('ReturnInitialVersion').'</a> <a id="butRestaurer" class="butAction" href="'.$url.'?id='.$_REQUEST['id'].'&actionATM=restaurer&idVersion='.$_REQUEST['idVersion'].'">'.$langs->trans('Restaurer').'</a><a id="butSupprimer" class="butAction" href="'.$url.'?id='.$_REQUEST['id'].'&actionATM=supprimer&idVersion='.$_REQUEST['idVersion'].'">'.$langs->trans('Delete').'</a></div>'?>');
+								$('div.tabsAction').html('<?php echo '<div class="inline-block divButAction"><a id="returnCurrent" href="'.$_SERVER['PHP_SELF'].'?id='.$_REQUEST['id'].'">'.$langs->trans('ReturnInitialVersion').'</a> <a id="butRestaurer" class="butAction" href="'.$url.'?id='.$_REQUEST['id'].'&actionATM=restaurer&idVersion='.$_REQUEST['idVersion'].'">'.$langs->trans('Restaurer').'</a><a id="butSupprimer" class="butAction" href="'.$url.'?id='.$_REQUEST['id'].'&actionATM=supprimer&idVersion='.$_REQUEST['idVersion'].'">'.$langs->trans('Delete').'</a></div>'?>');
 								$('#butRestaurer').insertAfter('#voir');
 								$('#butSupprimer').insertBefore('#voir');
 								$('#builddoc_form').hide();
@@ -45,7 +45,7 @@ class ActionsPropalehistory
 				} elseif($actionATM == 'createVersion') {
 					TPropaleHist::listeVersions($db, $object);
 				} elseif($actionATM == '' && $object->statut == 1) {
-					print '<a id="butNewVersion" class="butAction" href="'.$_SERVER['PHP_SELF'].'?id='.$_REQUEST['id'].'&actionATM=createVersion">'.$langs->trans('PropaleHistoryArchiver').'</a>';
+					print '<div class="inline-block divButAction"><a id="butNewVersion" class="butAction" href="'.$_SERVER['PHP_SELF'].'?id='.$_REQUEST['id'].'&actionATM=createVersion">'.$langs->trans('PropaleHistoryArchiver').'</a></div>';
 					?>
 						<script type="text/javascript">
 							$(document).ready(function() {

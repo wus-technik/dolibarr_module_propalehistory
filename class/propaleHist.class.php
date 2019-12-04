@@ -56,7 +56,7 @@
 			global $conf, $langs;
 
 			if (!empty($conf->global->PROPALEHISTORY_ARCHIVE_PDF_TOO)) {
-				TPropaleHist::archivePDF($object);				
+				TPropaleHist::archivePDF($object);
 			}
 
 			$newVersionPropale = new TPropaleHist;
@@ -163,7 +163,9 @@
 
 			}
 
-			$object->set_draft($user); // Pour pouvoir modifier les dates, le statut doit être à 0
+			if (method_exists($object, 'set_draft')) $object->set_draft($user); // Pour pouvoir modifier les dates, le statut doit être à 0
+			else $object->setDraft($user);
+
 			$object->set_availability($user, $propale->availability_id);
 			$object->set_date($user, $propale->date);
 			$object->set_date_livraison($user, $propale->date_livraison);
@@ -213,7 +215,7 @@
 			if ((float) DOL_VERSION >= 4.0) {
 			    $url=DOL_URL_ROOT.'/comm/propal/card.php';
 			}
-			
+
 			if($num>0) {
 
 				print '<div id="formListe" style="clear:both; margin:15px 0">';
@@ -230,7 +232,7 @@
 					} else {
 						$selected = "";
 					}
-					
+
 					print '<option id="'.$row->rowid.'" value="'.$row->rowid.'" '.$selected.'>Version n° '.$i.' - '.price($row->total).' '.$langs->getCurrencySymbol($conf->currency,0).' - '.dol_print_date($db->jdate($row->date_cre), "dayhour").'</option>';
 
 					$i++;

@@ -62,7 +62,7 @@ class modPropalehistory extends DolibarrModules
         // (where XXX is value of numeric property 'numero' of module)
         $this->description = "Gestion de l'historique des propositions commerciales";
         // Possible values for version are: 'development', 'experimental' or version
-        $this->version = '1.4.1';
+        $this->version = '1.4.2';
         // Key used in llx_const table to save module status enabled/disabled
         // (where MYMODULE is value of property name of module in uppercase)
         $this->const_name = 'MAIN_MODULE_' . strtoupper($this->name);
@@ -131,7 +131,7 @@ class modPropalehistory extends DolibarrModules
         // Array to add new pages in new tabs
         // Example:
         $this->tabs = array(
-         
+
         );
         // where objecttype can be
         // 'thirdparty'			to add a tab in third party view
@@ -156,7 +156,7 @@ class modPropalehistory extends DolibarrModules
             $conf->mymodule->enabled = 0;
         }
         $this->dictionnaries = array();
-       
+
 
         // Boxes
         // Add here list of php file(s) stored in core/boxes that contains class to show a box.
@@ -175,15 +175,15 @@ class modPropalehistory extends DolibarrModules
         $this->rights = array(); // Permission array used by this module
         $r = 0;
 
-      
+
         $this->menus = array(); // List of menus to add
         $r = 0;
 
-       
+
         // Exports
         $r = 1;
 
-        
+
     }
 
     /**
@@ -203,10 +203,10 @@ class modPropalehistory extends DolibarrModules
 
 		define('INC_FROM_DOLIBARR', true);
 		dol_include_once('/propalehistory/config.php');
-		
+
 		dol_include_once('/comm/propal/class/propal.class.php'); // TODO don't think is needed, please remove it
 		dol_include_once('/propalehistory/class/propaleHist.class.php');
-		
+
 		$PDOdb=new TPDOdb;
 		$o=new TPropaleHist;
 		$o->init_db_by_vars($PDOdb);

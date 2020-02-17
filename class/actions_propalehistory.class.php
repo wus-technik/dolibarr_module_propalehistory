@@ -242,12 +242,13 @@ class ActionsPropalehistory
 	 * @return int
 	 */
 	function overrideRefForFileName($parameters, &$object, &$action, $hookmanager) {
-		$ref = $object->ref;
-		// if $ref ends with a forward slash followed by at least one digit, remove everything after (and including) the forward slash
-		/* $ref = preg_replace('#/\d+$#', '', $ref); */
-
-		// override default
-		$this->resprints = $object->context['propale_history']['original_ref'];
-		return 1;
+		if (!isset($object->context['propale_history']['original_ref'])) {
+			// the specified proposal doesn't have any history entries in llx_propale_history so we don't override ref
+			return 0;
+		} else {
+			// override default
+			$this->resprints = $object->context['propale_history']['original_ref'];
+			return 1;
+		}
 	}
 }

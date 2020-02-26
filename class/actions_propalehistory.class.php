@@ -232,5 +232,23 @@ class ActionsPropalehistory
 		}
 	}
 
-
+	/**
+	 * Enables modules that use $object->ref to build a file path to get the original ref (without the trailing /[DIGITS])
+	 *
+	 * @param array        $parameters
+	 * @param CommonObject $object  The object that holds the ref which PropaleHistory has modified
+	 * @param string       $action
+	 * @param HookManager  $hookmanager
+	 * @return int
+	 */
+	function overrideRefForFileName($parameters, &$object, &$action, $hookmanager) {
+		if (!isset($object->context['propale_history']['original_ref'])) {
+			// the specified proposal doesn't have any history entries in llx_propale_history so we don't override ref
+			return 0;
+		} else {
+			// override default
+			$this->resprints = $object->context['propale_history']['original_ref'];
+			return 1;
+		}
+	}
 }

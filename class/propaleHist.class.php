@@ -78,6 +78,7 @@
 				setEventMessage('Version sauvegardée avec succès.', 'mesgs');
 			}*/
 
+			exit;
 		}
 
 		static function archivePDF(&$object)
@@ -179,7 +180,7 @@
 			self::generatePDF($object);
 
 			header('Location: '.$_SERVER['PHP_SELF'].'?id='.$_REQUEST['id'].'&mesg='.$langs->transnoentities('HistoryVersionSuccessfullRestored'));
-
+            exit;
 		}
 
 		static function getVersions(&$db, $fk_object) {

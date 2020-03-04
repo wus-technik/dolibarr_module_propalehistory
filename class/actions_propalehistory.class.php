@@ -229,6 +229,7 @@ class ActionsPropalehistory
 				</script>
 			<?php
 
+			exit;
 		}
 	}
 

@@ -45,7 +45,8 @@ class ActionsPropalehistory
 				} elseif($actionATM == 'createVersion') {
 					TPropaleHist::listeVersions($db, $object);
 				} elseif($actionATM == '' && $object->statut == 1) {
-					print '<div class="inline-block divButAction"><a id="butNewVersion" class="butAction" href="'.$_SERVER['PHP_SELF'].'?id='.$_REQUEST['id'].'&actionATM=createVersion">'.$langs->trans('PropaleHistoryArchiver').'</a></div>';
+                    // TODO Pourquoi c'est ici et pas dans un addMoreActionsButtons ?
+					print '<div id="butNewVersion" class="inline-block divButAction"><a class="butAction" href="'.$_SERVER['PHP_SELF'].'?id='.$_REQUEST['id'].'&actionATM=createVersion">'.$langs->trans('PropaleHistoryArchiver').'</a></div>';
 					?>
 						<script type="text/javascript">
 							$(document).ready(function() {

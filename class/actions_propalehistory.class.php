@@ -87,6 +87,8 @@ class ActionsPropalehistory
 			if ($object_src->element == 'propal') $object_src->ref = $old_propal_ref;
 			else $object->ref = $old_propal_ref;
 		}
+
+        return 0;
 	}
 
 	function beforePDFCreation($parameters, &$object, &$action, $hookmanager) {
@@ -108,7 +110,7 @@ class ActionsPropalehistory
 
 		}
 
-
+        return 0;
 
 	}
 
@@ -133,6 +135,8 @@ class ActionsPropalehistory
 				return 1; // replace standard code
 			}
 		}
+
+        return 0;
 	}
 
 

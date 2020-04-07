@@ -241,6 +241,8 @@ class ActionsPropalehistory
              * entreprendre à mon sens - MdLL, 07/04/2020
              */
 		}
+
+		return 0;
 	}
 
 	/**

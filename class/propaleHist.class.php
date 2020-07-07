@@ -90,6 +90,7 @@
 		{
 			global $db;
 
+			$sql = "";
 			$sql.= " SELECT count(*) as nb";
 			$sql.= " FROM ".MAIN_DB_PREFIX."propale_history";
 			$sql.= " WHERE fk_propale = ".$object->id;
@@ -196,6 +197,7 @@
 
 		static function getVersions(&$db, $fk_object) {
 
+			$sql = "";
 			$sql.= " SELECT rowid, date_version, date_cre, total";
 			$sql.= " FROM ".MAIN_DB_PREFIX."propale_history";
 			$sql.= " WHERE fk_propale = ".$fk_object;

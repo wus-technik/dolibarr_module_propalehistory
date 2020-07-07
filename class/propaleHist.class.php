@@ -245,7 +245,7 @@
 						$selected = "";
 					}
 
-					$options = '<option id="' . $row->rowid . '" value="' . $row->rowid . '" ' . $selected . '>Version n° ' . $i . ' - ' . price($row->total) . ' ' . $langs->getCurrencySymbol($conf->currency, 0) . ' - ' . dol_print_date($db->jdate($row->date_cre), "dayhour") . '</option>';
+					$options = '<option id="' . $row->rowid . '" value="' . $row->rowid . '" ' . $selected . '>'.$langs->trans('VersionNumberShort').' ' . $i . ' - ' . price($row->total) . ' ' . $langs->getCurrencySymbol($conf->currency, 0) . ' - ' . dol_print_date($db->jdate($row->date_cre), "dayhour") . '</option>';
 					$hookmanager->initHooks(array('propalehistory'));
 					$parameters = array('row' => $row, 'selected' => $selected, 'versionNumber' => $i);
 					$action = '';

@@ -22,12 +22,9 @@
  * 	\brief		This file is an example module setup page
  * 				Put some comments here
  */
-// Dolibarr environment
-$res = @include("../../main.inc.php"); // From htdocs directory
-if (! $res) {
-    $res = @include("../../../main.inc.php"); // From "custom" directory
-}
 
+// Dolibarr environment
+require '../config.php';
 // Libraries
 require_once DOL_DOCUMENT_ROOT . "/core/lib/admin.lib.php";
 

@@ -43,6 +43,7 @@ class modPropalehistory extends DolibarrModules
         $this->db = $db;
 
 		$this->editor_name = 'ATM-Consulting';
+		$this->editor_url = "https://www.atm-consulting.fr";
         // Id for module (must be unique).
         // Use a free id here
         // (See in Home -> System information -> Dolibarr for list of used modules id).
@@ -52,7 +53,7 @@ class modPropalehistory extends DolibarrModules
 
         // Family can be 'crm','financial','hr','projects','products','ecm','technic','other'
         // It is used to group modules in module setup page
-        $this->family = "crm";
+        $this->family = 'ATM Consulting - CRM';
         // Module label (no space allowed)
         // used if translation string 'ModuleXXXName' not found
         // (where XXX is value of numeric property 'numero' of module)

@@ -175,7 +175,11 @@
 
 			$object->set_availability($user, $propale->availability_id);
 			$object->set_date($user, $propale->date);
-			$object->set_date_livraison($user, $propale->date_livraison);
+			if (version_compare(DOL_VERSION, '14', '>=')) {
+				$object->setDateLivraison($user, $propale->date_livraison);
+			} else {
+				$object->set_date_livraison($user, $propale->date_livraison);
+			}
 			$object->set_echeance($user, $propale->fin_validite);
 			$object->set_ref_client($user, $propale->ref_client);
 			$object->set_demand_reason($user, $propale->demand_reason_id);

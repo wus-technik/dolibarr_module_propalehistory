@@ -12,13 +12,13 @@
 		}
 
 		function save(&$PDOdb) {
-			
+
 		//	$PDOdb->debug =true;
 			parent::save($PDOdb);
 		}
 
 		function load(&$PDOdb,$idVersion, $loadChild = true){
-			
+
 			parent::load($PDOdb,$idVersion, $loadChild);
 		}
 
@@ -28,26 +28,26 @@
 
 		public function setObject(&$object) {
 			global $conf;
-			
+
 			$code =  serialize($object);
-			
+
 			if(!empty($conf->global->PROPALEHISTORY_USE_COMPRESS_ARCHIVE)) {
 				$code = base64_encode( gzdeflate($code) );
 			}
-			
+
 			$this->serialized_parent_propale = $code;
-			
+
 		}
-		
+
 		function getObject() {
 @			$code = gzinflate(base64_decode($this->serialized_parent_propale));
 			if($code === false) {
 				$code = $this->serialized_parent_propale;
 			}
-			
+
 			$propal = unserialize($code);
 			if($propal === false) $propal = unserialize(utf8_decode($code));
-		    
+
 			return $propal;
 		}
 
@@ -61,7 +61,7 @@
 
 			$newVersionPropale = new TPropaleHist;
 			$newVersionPropale->setObject($object);
-			
+
 			$newVersionPropale->date_version = dol_now();
 			$newVersionPropale->fk_propale = $object->id;
 			$newVersionPropale->total = $object->total_ht;
@@ -175,8 +175,8 @@
 
 			$object->set_availability($user, $propale->availability_id);
 			$object->set_date($user, $propale->date);
-			if (version_compare(DOL_VERSION, '14', '>=')) {
-				$object->setDateLivraison($user, $propale->date_livraison);
+			if (is_callable(array($object, 'setDeliveryDate'))) {
+				$object->setDeliveryDate($user, $propale->date_livraison);
 			} else {
 				$object->set_date_livraison($user, $propale->date_livraison);
 			}

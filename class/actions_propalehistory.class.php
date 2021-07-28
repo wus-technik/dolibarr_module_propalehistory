@@ -93,15 +93,6 @@ class ActionsPropalehistory
 			if ($obj->element == 'propal' && !empty($obj->context['propale_history']['original_ref'])) {
 				$original_ref = $obj->context['propale_history']['original_ref'];
 
-				// Rename file with version
-				$objectref = str_replace($original_ref, '', $obj->ref);
-				$objectref = str_replace('/', '-', $objectref);
-				$objectref = $original_ref . $objectref;
-				$objectref = dol_sanitizeFileName($objectref);
-				$dir = dirname($parameters['file']);
-				$file = rtrim($dir, "/") . "/" . $objectref . ".pdf";
-				dol_move($parameters['file'], $file);
-
 				// Restore ref
 				$obj->ref = $original_ref;
 			}

@@ -53,7 +53,7 @@
 
 		static function archiverPropale(&$PDOdb, &$object)
 		{
-			global $conf, $langs;
+			global $conf, $db, $langs;
 
 			if (!empty($conf->global->PROPALEHISTORY_ARCHIVE_PDF_TOO)) {
 				TPropaleHist::archivePDF($object);
@@ -67,6 +67,27 @@
 			$newVersionPropale->total = $object->total_ht;
 
 			$newVersionPropale->save($PDOdb);
+
+            if (!empty($conf->global->PROPALEHISTORY_ARCHIVE_AND_RESET_DATES) && $object->id > 0) {
+                $now = dol_now();
+
+                $db->begin();
+
+                $sql  = "UPDATE " . MAIN_DB_PREFIX . "propal";
+                $sql .= " SET datep = '" . $db->idate($now) . "'";
+                $sql .= " , fin_validite = '" . $db->idate($now) . "'";
+                $sql .= " WHERE rowid = " . $object->id;
+
+                dol_syslog(__METHOD__, LOG_DEBUG);
+                $resql = $db->query($sql);
+                if (!$resql) {
+                    $error_msg = $db->lasterror();
+                    $db->rollback();
+                    dol_syslog(__METHOD__, 'Error : ' . $error_msg, LOG_ERR);
+                } else {
+                    $db->commit();
+                }
+            }
 			?>
 				<script language="javascript">
 					document.location.href="<?php echo $_SERVER['PHP_SELF'] ?>?id=<?php echo $_REQUEST['id']?>&mesg=<?php echo $langs->transnoentities('HistoryVersionSuccessfullArchived') ?>";

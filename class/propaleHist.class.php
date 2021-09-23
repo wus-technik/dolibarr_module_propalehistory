@@ -87,6 +87,27 @@
                 } else {
                     $db->commit();
                 }
+
+                if (empty($conf->global->MAIN_DISABLE_PDF_AUTOUPDATE)) {
+                    // reload the object with new lines
+                    $ret = $object->fetch($object->id);
+                    $ret = $object->fetch_thirdparty($object->socid);
+
+                    // Define output language
+                    $outputlangs = $langs;
+                    if (!empty($conf->global->MAIN_MULTILANGS)) {
+                        $outputlangs = new Translate('', $conf);
+                        $newlang = (GETPOST('lang_id', 'aZ09') ? GETPOST('lang_id', 'aZ09') : $object->thirdparty->default_lang);
+                        $outputlangs->setDefaultLang($newlang);
+                    }
+
+                    // PDF
+                    $hidedetails = (!empty($conf->global->MAIN_GENERATE_DOCUMENTS_HIDE_DETAILS) ? 1 : 0);
+                    $hidedesc = (!empty($conf->global->MAIN_GENERATE_DOCUMENTS_HIDE_DESC) ? 1 : 0);
+                    $hideref = (!empty($conf->global->MAIN_GENERATE_DOCUMENTS_HIDE_REF) ? 1 : 0);
+
+                    $object->generateDocument($object->modelpdf, $outputlangs, $hidedetails, $hidedesc, $hideref);
+                }
             }
 			?>
 				<script language="javascript">

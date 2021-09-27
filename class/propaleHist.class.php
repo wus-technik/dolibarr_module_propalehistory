@@ -70,12 +70,13 @@
 
             if (!empty($conf->global->PROPALEHISTORY_ARCHIVE_AND_RESET_DATES) && $object->id > 0) {
                 $now = dol_now();
+                $fin_validite = $now + ($object->duree_validite * 24 * 3600);
 
                 $db->begin();
 
                 $sql  = "UPDATE " . MAIN_DB_PREFIX . "propal";
                 $sql .= " SET datep = '" . $db->idate($now) . "'";
-                $sql .= " , fin_validite = '" . $db->idate($now) . "'";
+                $sql .= ", fin_validite = '" . $db->idate($fin_validite) . "'";
                 $sql .= " WHERE rowid = " . $object->id;
 
                 dol_syslog(__METHOD__, LOG_DEBUG);

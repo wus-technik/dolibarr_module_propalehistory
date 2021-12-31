@@ -134,6 +134,19 @@ class InterfacePropalehistory extends DolibarrTriggers
             dol_syslog(
                 "Trigger '" . $this->name . "' for action '$action' launched by " . __FILE__ . ". id=" . $object->id
             );
+        } elseif ($action == 'PROPAL_DELETE') {
+            dol_syslog("Trigger '" . $this->name . "' for action '$action' launched by " . __FILE__ . ". id=" . $object->id);
+
+            $sql  = "DELETE FROM " . MAIN_DB_PREFIX . "propale_history";
+            $sql .= " WHERE fk_propale = ". $object->id;
+
+            $resql = $this->db->query($sql);
+
+            if (!$resql) {
+                $object->error = $this->db->lasterror();
+                $object->errors = $object->error;
+                return -1;
+            }
         }
 
         return 0;

@@ -177,17 +177,6 @@ class ActionsPropalehistory
 			}
 		}
 
-		if($_REQUEST['action'] == 'delete'){
-
-			global $db;
-
-			$sql = "DELETE FROM ".MAIN_DB_PREFIX."propale_history";
-			$sql.= " WHERE fk_propale = ".$_REQUEST['id'];
-
-			$resql = $db->query($sql);
-
-		}
-
 		if(isset($_REQUEST['actionATM'])) {
 			$actionATM = $_REQUEST['actionATM'];
 		} else {

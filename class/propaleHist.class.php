@@ -240,6 +240,11 @@
 				print '<form name="formVoirPropale" method="POST" action="'.$url.'?id='.GETPOST('id','int').'">';
 				print '<input type="hidden" name="actionATM" value="viewVersion" />';
 				print '<input type="hidden" name="socid" value="'.$object->socid.'" />';
+
+				if(function_exists('newToken')){
+					print '<input type="hidden" name="token" value="'.newToken().'" />';
+				}
+
 				print '<select name="idVersion">';
 				$i = 1;
 

@@ -80,38 +80,55 @@ class ActionsPropalehistory
 	}
 
 	function afterPDFCreation($parameters, &$object, &$action, $hookmanager) {
-		global $langs,$db, $user,$conf, $old_propal_ref;
+		global $langs, $db, $user, $conf;
 
-		if(!empty($conf->global->PROPALEHISTORY_SHOW_VERSION_PDF) && !empty($old_propal_ref)) {
+		if (!empty($conf->global->PROPALEHISTORY_SHOW_VERSION_PDF)) {
 			$object_src = $parameters['object'];
-			if ($object_src->element == 'propal') $object_src->ref = $old_propal_ref;
-			else $object->ref = $old_propal_ref;
+			if (isset($object_src)) {
+				$obj = $object_src;
+			} else {
+				$obj = $object;
+			}
+
+			if ($obj->element == 'propal' && !empty($obj->context['propale_history']['original_ref'])) {
+				$original_ref = $obj->context['propale_history']['original_ref'];
+
+				// Restore ref
+				$obj->ref = $original_ref;
+			}
 		}
 
         return 0;
 	}
 
 	function beforePDFCreation($parameters, &$object, &$action, $hookmanager) {
-      	global $langs,$db, $user,$conf, $old_propal_ref;
+      	global $langs, $db, $user, $conf;
 
-      	if(!empty($conf->global->PROPALEHISTORY_SHOW_VERSION_PDF) && in_array('propalcard',explode(':',$parameters['context'])) && empty($object->context['propale_history']['original_ref'])) {
-			define('INC_FROM_DOLIBARR', true);
-			dol_include_once("/propalehistory/config.php");
-			dol_include_once("/comm/propal/class/propal.class.php");
-			dol_include_once('/propalehistory/class/propaleHist.class.php');
-
-			$TVersion = TPropaleHist::getVersions($db, $object->id);
-			$num = count($TVersion);
-
-			if($num>0) {
-                $object->context['propale_history'] = array('original_ref' => $object->ref);
-                $object->ref .= '/' . ($num+1);
+      	if (!empty($conf->global->PROPALEHISTORY_SHOW_VERSION_PDF)) {
+			$object_src = $parameters['object'];
+			if (isset($object_src)) {
+				$obj = $object_src;
+			} else {
+				$obj = $object;
 			}
 
+			if ($obj->element == 'propal' && empty($obj->context['propale_history']['original_ref'])) {
+				define('INC_FROM_DOLIBARR', true);
+				dol_include_once("/propalehistory/config.php");
+				dol_include_once("/comm/propal/class/propal.class.php");
+				dol_include_once('/propalehistory/class/propaleHist.class.php');
+
+				$TVersion = TPropaleHist::getVersions($db, $obj->id);
+				$num = count($TVersion);
+
+				if ($num > 0) {
+					$obj->context['propale_history'] = array('original_ref' => $obj->ref);
+					$obj->ref .= '/' . ($num + 1);
+				}
+			}
 		}
 
         return 0;
-
 	}
 
 	function formConfirm($parameters, &$object, &$action, $hookmanager)
@@ -175,17 +192,6 @@ class ActionsPropalehistory
 
 				return 0; // Do standard code
 			}
-		}
-
-		if($_REQUEST['action'] == 'delete'){
-
-			global $db;
-
-			$sql = "DELETE FROM ".MAIN_DB_PREFIX."propale_history";
-			$sql.= " WHERE fk_propale = ".$_REQUEST['id'];
-
-			$resql = $db->query($sql);
-
 		}
 
 		if(isset($_REQUEST['actionATM'])) {

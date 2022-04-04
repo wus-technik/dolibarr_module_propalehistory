@@ -21,7 +21,6 @@ PropalHistoryAutoArchiveAndArchiveOnModifyCantBeUsedBoth = Versionierung bei Gen
 
 PROPALEHISTORY_ARCHIVE_PDF_TOO = Versionierung für PDF Dateien
 PROPALEHISTORY_HIDE_VERSION_ON_TABS = Versionsnummer im Tab nicht anzeigen
-PROPALEHISTORY_USE_COMPRESS_ARCHIVE = Versionsverlauf komprimieren
 
 ReturnInitialVersion = Zur aktuellen Version zurück
 PropaleHistoryArchiver = Versionieren

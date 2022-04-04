@@ -29,11 +29,7 @@
 		public function setObject(&$object) {
 			global $conf;
 
-			$code =  serialize($object);
-
-			if(!empty($conf->global->PROPALEHISTORY_USE_COMPRESS_ARCHIVE)) {
-				$code = base64_encode( gzdeflate($code) );
-			}
+			$code = base64_encode(gzdeflate(serialize($object)));
 
 			$this->serialized_parent_propale = $code;
 

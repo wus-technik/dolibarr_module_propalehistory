@@ -27,6 +27,8 @@
 require '../config.php';
 // Libraries
 require_once DOL_DOCUMENT_ROOT . "/core/lib/admin.lib.php";
+require_once '../lib/propalehistory.lib.php';
+dol_include_once('propalehistory/class/propalehistory.class.php');
 
 // Translations
 $langs->load("propalehistory@propalehistory");
@@ -63,7 +65,7 @@ if (preg_match('/set_(.*)/',$action,$reg))
 		dol_print_error($db);
 	}
 }
-	
+
 if (preg_match('/del_(.*)/',$action,$reg))
 {
 	$code=$reg[1];
@@ -90,14 +92,14 @@ $linkback = '<a href="' . DOL_URL_ROOT . '/admin/modules.php">'
 print_fiche_titre($langs->trans($page_name), $linkback);
 
 // Configuration header
-/*$head = doc2projectAdminPrepareHead();
+$head = propalehistoryAdminPrepareHead();
 dol_fiche_head(
     $head,
     'settings',
     $langs->trans("Module1040900Name"),
     0,
     "project"
-);*/
+);
 
 $ok = $conf->propal->enabled;
 
@@ -110,7 +112,7 @@ if($ok) {
 	print '<td>'.$langs->trans("Parameters").'</td>'."\n";
 	print '<td align="center" width="20">&nbsp;</td>';
 	print '<td align="center" width="100">'.$langs->trans("Value").'</td>'."\n";
-	
+
 	// Display convert button on proposal
 	$var=!$var;
 	print '<tr '.$bc[$var].'>';
@@ -137,7 +139,7 @@ if($ok) {
 	print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
 	print '</form>';
 	print '</td></tr>';
-	
+
 	$var=!$var;
 	print '<tr '.$bc[$var].'>';
 	print '<td>'.$langs->trans("PROPALEHISTORY_HIDE_VERSION_ON_TABS").'</td>';
@@ -163,7 +165,7 @@ if($ok) {
 	print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
 	print '</form>';
 	print '</td></tr>';
-	
+
 	$var=!$var;
 	print '<tr '.$bc[$var].'>';
 	print '<td>'.$langs->trans("PROPALEHISTORY_ARCHIVE_ON_MODIFY").'</td>';
@@ -176,8 +178,8 @@ if($ok) {
 	print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
 	print '</form>';
 	print '</td></tr>';
-	
-	
+
+
 } else {
 	print $langs->trans('ModuleNeedProposalOrOrderModule');
 }

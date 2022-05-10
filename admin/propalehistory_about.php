@@ -28,7 +28,7 @@ require '../config.php';
 
 // Libraries
 require_once DOL_DOCUMENT_ROOT . "/core/lib/admin.lib.php";
-require_once '../lib/doc2project.lib.php';
+require_once '../lib/propalehistory.lib.php';
 
 // Translations
 $langs->load("doc2project@doc2project");
@@ -50,7 +50,7 @@ $linkback = '<a href="' . DOL_URL_ROOT . '/admin/modules.php">'
 print_fiche_titre($langs->trans($page_name), $linkback);
 
 // Configuration header
-$head = Doc2ProjectAdminPrepareHead();
+$head = propalehistoryAdminPrepareHead();
 dol_fiche_head(
     $head,
     'about',

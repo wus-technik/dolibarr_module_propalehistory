@@ -28,7 +28,7 @@ require '../config.php';
 
 // Libraries
 require_once DOL_DOCUMENT_ROOT . "/core/lib/admin.lib.php";
-require_once '../lib/doc2project.lib.php';
+require_once '../lib/propalehistory.lib.php';
 
 // Translations
 $langs->load("doc2project@doc2project");
@@ -50,7 +50,7 @@ $linkback = '<a href="' . DOL_URL_ROOT . '/admin/modules.php">'
 print_fiche_titre($langs->trans($page_name), $linkback);
 
 // Configuration header
-$head = Doc2ProjectAdminPrepareHead();
+$head = propalehistoryAdminPrepareHead();
 dol_fiche_head(
     $head,
     'about',
@@ -60,14 +60,16 @@ dol_fiche_head(
 );
 
 // About page goes here
-print '<div style="float: left;"><img src="../img/Dolibarr_Preferred_Partner_logo.png" /></div>';
-print '<div>'.$langs->trans('ATMAbout').'</div>';
+require_once __DIR__ . '/../class/techatm.class.php';
+$techATM = new \propalehistory\TechATM($db);
 
-dol_fiche_end();
+require_once __DIR__ . '/../core/modules/modPropalehistory.class.php';
+$moduleDescriptor = new modPropalehistory($db);
 
-print '<br><center>';
-print '<a href="http://www.atm-consulting.fr" target="_blank"><img src="../img/ATM_logo.jpg" /></a>';
-print '</center>';
+print $techATM->getAboutPage($moduleDescriptor);
+
+// Page end
+print dol_get_fiche_end();
 
 llxFooter();
 

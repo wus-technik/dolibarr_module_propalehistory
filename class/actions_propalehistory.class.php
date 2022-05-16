@@ -131,6 +131,15 @@ class ActionsPropalehistory
         return 0;
 	}
 
+	function addMoreActionsButtons($parameters, &$object, &$action, $hookmanager)
+	{
+		if (in_array('propalcard', explode(':', $parameters['context'])))
+		{
+			// hack pour remettre la bonne ref pour le bloc showdocuments
+			if ($action == 'builddoc' && !empty($object->ref_old)) $object->ref = $object->ref_old;
+		}
+	}
+
 	function formConfirm($parameters, &$object, &$action, $hookmanager)
 	{
 		global $conf, $langs, $db, $user;
@@ -246,6 +255,12 @@ class ActionsPropalehistory
              * lors de la redirection, on est dans une méthodologie bien dégueulasse, il y a donc du refaisage à
              * entreprendre à mon sens - MdLL, 07/04/2020
              */
+		}
+
+		if (in_array('propalcard', explode(':', $parameters['context'])) && $action == 'builddoc')
+		{
+			// hack pour stocker la bonne ref pour pouvoir la remettre avant le bloc showdocuments
+			$object->ref_old = $object->ref;
 		}
 
 		return 0;

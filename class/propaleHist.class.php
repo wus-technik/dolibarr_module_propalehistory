@@ -220,8 +220,10 @@
 
 		static function listeVersions(&$db, $object) {
 			global $langs,$conf,$hookmanager;
+
 			$TVersion = self::getVersions($db, $object->id);
 
+			$newToken = function_exists('newToken') ? newToken() : $_SESSION['newtoken'];
 
 			$num = count($TVersion);
 
@@ -238,7 +240,7 @@
 				print '<input type="hidden" name="socid" value="'.$object->socid.'" />';
 
 				if(function_exists('newToken')){
-					print '<input type="hidden" name="token" value="'.newToken().'" />';
+					print '<input type="hidden" name="token" value="'. $newToken .'" />';
 				}
 
 				print '<select name="idVersion">';

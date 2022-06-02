@@ -365,7 +365,7 @@
 		        $this->labelstatut_short[4]=(! empty($conf->global->PROPAL_STATUS_BILLEDSHORT_LABEL) ? $conf->global->PROPAL_STATUS_BILLEDSHORT_LABEL : $langs->trans("PropalStatusBilledShort"));
 		    }
 
-			function getLinesArray()
+			function getLinesArray($filters = '')
     		{
     			null;
 			}

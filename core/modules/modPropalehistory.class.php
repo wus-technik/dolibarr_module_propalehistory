@@ -63,10 +63,7 @@ class modPropalehistory extends DolibarrModules
         // (where XXX is value of numeric property 'numero' of module)
         $this->description = "Gestion de l'historique des propositions commerciales";
         // Possible values for version are: 'development', 'experimental' or version
-        $this->version = '2.2.0';
-		// Url to the file with your last numberversion of this module
-		require_once __DIR__ . '/../../class/techatm.class.php';
-		$this->url_last_version = \propalehistory\TechATM::getLastModuleVersionUrl($this);
+        $this->version = '2.0.5';
         // Key used in llx_const table to save module status enabled/disabled
         // (where MYMODULE is value of property name of module in uppercase)
         $this->const_name = 'MAIN_MODULE_' . strtoupper($this->name);

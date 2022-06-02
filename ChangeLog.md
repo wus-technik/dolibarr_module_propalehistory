@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 
 
 ## Version 2.0
+- FIX : v16 token - *02/06/2022* - 2.0.5  
 - FIX : hack stockage de la ref propale - 2.0.4 - *13/05/2022*
 - FIX: Suppression de conf pour ajouter son comportement par défaut - 2.0.3 - *04/04/2022*
 - FIX: token  - 2.0.2 - *16/03/2022*

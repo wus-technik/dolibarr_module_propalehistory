@@ -11,6 +11,7 @@ class ActionsPropalehistory
     function formObjectOptions($parameters, &$object, &$action, $hookmanager)
     {
       	global $conf,$langs,$db;
+		$newToken = function_exists('newToken') ? newToken() : $_SESSION['newtoken'];
 		define('INC_FROM_DOLIBARR', true);
 		dol_include_once("/propalehistory/config.php");
 		dol_include_once("/comm/propal/class/propal.class.php");
@@ -32,7 +33,8 @@ class ActionsPropalehistory
 					?>
 						<script type="text/javascript">
 							$(document).ready(function() {
-								$('div.tabsAction').html('<?php echo '<div class="inline-block divButAction"><a id="returnCurrent" href="'.$_SERVER['PHP_SELF'].'?id='.$_REQUEST['id'].'">'.$langs->trans('ReturnInitialVersion').'</a> <a id="butRestaurer" class="butAction" href="'.$url.'?id='.$_REQUEST['id'].'&actionATM=restaurer&idVersion='.$_REQUEST['idVersion'].'">'.$langs->trans('Restaurer').'</a><a id="butSupprimer" class="butActionDelete" href="'.$url.'?id='.$_REQUEST['id'].'&actionATM=supprimer&idVersion='.$_REQUEST['idVersion'].'">'.$langs->trans('Delete').'</a></div>'?>');
+
+								$('div.tabsAction').html('<?php echo '<div class="inline-block divButAction"><a id="returnCurrent" href="'.$_SERVER['PHP_SELF'].'?id='.$_REQUEST['id'].'&token='.$newToken.'">'.$langs->trans('ReturnInitialVersion').'</a> <a id="butRestaurer" class="butAction" href="'.$url.'?id='.$_REQUEST['id'].'&actionATM=restaurer&idVersion='.$_REQUEST['idVersion'].'&token='.$newToken.'">'.$langs->trans('Restaurer').'</a><a id="butSupprimer" class="butActionDelete" href="'.$url.'?id='.$_REQUEST['id'].'&actionATM=supprimer&idVersion='.$_REQUEST['idVersion'].'">'.$langs->trans('Delete').'</a></div>'?>');
 								$('#butRestaurer').insertAfter('#voir');
 								$('#butSupprimer').insertBefore('#voir');
 								$('#builddoc_form').hide();
@@ -46,7 +48,7 @@ class ActionsPropalehistory
 					TPropaleHist::listeVersions($db, $object);
 				} elseif($actionATM == '' && $object->statut == 1) {
                     // TODO Pourquoi c'est ici et pas dans un addMoreActionsButtons ?
-					print '<div id="butNewVersion" class="inline-block divButAction"><a class="butAction" href="'.$_SERVER['PHP_SELF'].'?id='.$_REQUEST['id'].'&actionATM=createVersion">'.$langs->trans('PropaleHistoryArchiver').'</a></div>';
+					print '<div id="butNewVersion" class="inline-block divButAction"><a class="butAction" href="'.$_SERVER['PHP_SELF'].'?id='.$_REQUEST['id'].'&actionATM=createVersion&token='.$newToken.'">'.$langs->trans('PropaleHistoryArchiver').'</a></div>';
 					?>
 						<script type="text/javascript">
 							$(document).ready(function() {

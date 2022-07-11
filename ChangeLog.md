@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+
+## Version 2.2
+
+- NEW : Setup use Dolibarr V15 setup  *11/07/2022* 2.3.0
 - NEW : Ajout de la class TechATM pour l'affichage de la page "A propos" *10/05/2022* 2.2.0
 - NEW : Reset proposal dates on archiving - 2.1.0 - *04/10/2021*  
   Need hidden conf PROPALEHISTORY_ARCHIVE_AND_RESET_DATES set to 1

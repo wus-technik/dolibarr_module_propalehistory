@@ -20,6 +20,8 @@ PropalHistoryAutoArchiveAndArchiveOnModifyCantBeUsedBoth = L'archivage à la val
 
 PROPALEHISTORY_ARCHIVE_PDF_TOO = Archiver aussi le PDF
 PROPALEHISTORY_HIDE_VERSION_ON_TABS = Masquer le numéro de version dans les onglets
+PROPALEHISTORY_ARCHIVE_AND_RESET_DATES = Reset des dates des devis à la date du jour lors de l'archivage
+EXPERIMENTAL_OPTIONS = Options expérimentales
 
 ReturnInitialVersion = Retour version courante
 PropaleHistoryArchiver = Archiver

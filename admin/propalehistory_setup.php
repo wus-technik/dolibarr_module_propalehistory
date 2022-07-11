@@ -36,6 +36,7 @@ if (! $user->admin) {
     accessforbidden();
 }
 
+$newToken = function_exists('newToken') ? newToken() : $_SESSION['newtoken'];
 // Parameters
 $action = GETPOST('action', 'alpha');
 
@@ -63,7 +64,7 @@ if (preg_match('/set_(.*)/',$action,$reg))
 		dol_print_error($db);
 	}
 }
-	
+
 if (preg_match('/del_(.*)/',$action,$reg))
 {
 	$code=$reg[1];
@@ -110,7 +111,7 @@ if($ok) {
 	print '<td>'.$langs->trans("Parameters").'</td>'."\n";
 	print '<td align="center" width="20">&nbsp;</td>';
 	print '<td align="center" width="100">'.$langs->trans("Value").'</td>'."\n";
-	
+
 	// Display convert button on proposal
 	$var=!$var;
 	print '<tr '.$bc[$var].'>';
@@ -118,7 +119,7 @@ if($ok) {
 	print '<td align="center" width="20">&nbsp;</td>';
 	print '<td align="right" width="300">';
 	print '<form method="POST" action="'.$_SERVER['PHP_SELF'].'">';
-	print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
+	print '<input type="hidden" name="token" value="'.$newToken.'">';
 	print '<input type="hidden" name="action" value="set_PROPALEHISTORY_AUTO_ARCHIVE">';
 	print $form->selectyesno("PROPALEHISTORY_AUTO_ARCHIVE",$conf->global->PROPALEHISTORY_AUTO_ARCHIVE,1);
 	print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
@@ -131,20 +132,20 @@ if($ok) {
 	print '<td align="center" width="20">&nbsp;</td>';
 	print '<td align="right" width="300">';
 	print '<form method="POST" action="'.$_SERVER['PHP_SELF'].'">';
-	print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
+	print '<input type="hidden" name="token" value="'.$newToken.'">';
 	print '<input type="hidden" name="action" value="set_PROPALEHISTORY_SHOW_VERSION_PDF">';
 	print $form->selectyesno("PROPALEHISTORY_SHOW_VERSION_PDF",$conf->global->PROPALEHISTORY_SHOW_VERSION_PDF,1);
 	print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
 	print '</form>';
 	print '</td></tr>';
-	
+
 	$var=!$var;
 	print '<tr '.$bc[$var].'>';
 	print '<td>'.$langs->trans("PROPALEHISTORY_HIDE_VERSION_ON_TABS").'</td>';
 	print '<td align="center" width="20">&nbsp;</td>';
 	print '<td align="right" width="300">';
 	print '<form method="POST" action="'.$_SERVER['PHP_SELF'].'">';
-	print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
+	print '<input type="hidden" name="token" value="'.$newToken.'">';
 	print '<input type="hidden" name="action" value="set_PROPALEHISTORY_HIDE_VERSION_ON_TABS">';
 	print $form->selectyesno("PROPALEHISTORY_HIDE_VERSION_ON_TABS",$conf->global->PROPALEHISTORY_HIDE_VERSION_ON_TABS,1);
 	print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
@@ -157,27 +158,27 @@ if($ok) {
 	print '<td align="center" width="20">&nbsp;</td>';
 	print '<td align="right" width="300">';
 	print '<form method="POST" action="'.$_SERVER['PHP_SELF'].'">';
-	print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
+	print '<input type="hidden" name="token" value="'.$newToken.'">';
 	print '<input type="hidden" name="action" value="set_PROPALEHISTORY_ARCHIVE_PDF_TOO">';
 	print $form->selectyesno("PROPALEHISTORY_ARCHIVE_PDF_TOO",$conf->global->PROPALEHISTORY_ARCHIVE_PDF_TOO,1);
 	print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
 	print '</form>';
 	print '</td></tr>';
-	
+
 	$var=!$var;
 	print '<tr '.$bc[$var].'>';
 	print '<td>'.$langs->trans("PROPALEHISTORY_ARCHIVE_ON_MODIFY").'</td>';
 	print '<td align="center" width="20">&nbsp;</td>';
 	print '<td align="right" width="300">';
 	print '<form method="POST" action="'.$_SERVER['PHP_SELF'].'">';
-	print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
+	print '<input type="hidden" name="token" value="'.$newToken.'">';
 	print '<input type="hidden" name="action" value="set_PROPALEHISTORY_ARCHIVE_ON_MODIFY">';
 	print $form->selectyesno("PROPALEHISTORY_ARCHIVE_ON_MODIFY",$conf->global->PROPALEHISTORY_ARCHIVE_ON_MODIFY,1);
 	print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
 	print '</form>';
 	print '</td></tr>';
-	
-	
+
+
 } else {
 	print $langs->trans('ModuleNeedProposalOrOrderModule');
 }

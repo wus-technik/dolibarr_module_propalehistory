@@ -12,7 +12,7 @@ class ActionsPropalehistory
     {
       	global $conf,$langs,$db;
 		$newToken = function_exists('newToken') ? newToken() : $_SESSION['newtoken'];
-        if(!define('INC_FROM_DOLIBARR')) { define('INC_FROM_DOLIBARR', true);}
+        if(!define('INC_FROM_DOLIBARR', true)) { define('INC_FROM_DOLIBARR', true);}
 
         dol_include_once("/propalehistory/config.php");
 		dol_include_once("/comm/propal/class/propal.class.php");
@@ -116,7 +116,7 @@ class ActionsPropalehistory
 			}
 
 			if ($obj->element == 'propal' && empty($obj->context['propale_history']['original_ref'])) {
-                if(!define('INC_FROM_DOLIBARR')) { define('INC_FROM_DOLIBARR', true);}
+                if(!define('INC_FROM_DOLIBARR', true)) { define('INC_FROM_DOLIBARR', true);}
 				dol_include_once("/propalehistory/config.php");
 				dol_include_once("/comm/propal/class/propal.class.php");
 				dol_include_once('/propalehistory/class/propaleHist.class.php');
@@ -172,7 +172,7 @@ class ActionsPropalehistory
 	function doActions($parameters, &$object, &$action, $hookmanager) {
 		global $conf, $langs, $db, $user;
 
-        if(!define('INC_FROM_DOLIBARR')) { define('INC_FROM_DOLIBARR', true);}
+        if(!define('INC_FROM_DOLIBARR', true)) { define('INC_FROM_DOLIBARR', true);}
 		dol_include_once("/propalehistory/config.php");
 		dol_include_once("/comm/propal/class/propal.class.php");
 		dol_include_once('/propalehistory/class/propaleHist.class.php');

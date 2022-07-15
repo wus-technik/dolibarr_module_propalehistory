@@ -12,7 +12,9 @@ class ActionsPropalehistory
     {
       	global $conf,$langs,$db;
 		$newToken = function_exists('newToken') ? newToken() : $_SESSION['newtoken'];
-		define('INC_FROM_DOLIBARR', true);
+        if(!define('INC_FROM_DOLIBARR', true)) {
+            define('INC_FROM_DOLIBARR', true);
+        }
 		dol_include_once("/propalehistory/config.php");
 		dol_include_once("/comm/propal/class/propal.class.php");
 

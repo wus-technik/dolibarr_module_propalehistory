@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 
 ## Version 2.3
 
+- FIX : Compatibility PHP 8 - *15/07/2022* - 2.3.3
 - FIX : Module icon *12/07/2022* 2.3.2
 - FIX : FIX keep parent line id on restore proposal *11/07/2022* 2.3.1 [PR#49 Open-DSI](https://github.com/ATM-Consulting/dolibarr_module_propalehistory/pull/49)
 - NEW : Setup use Dolibarr V15 setup  *11/07/2022* 2.3.0

@@ -42,7 +42,7 @@ class modPropalehistory extends DolibarrModules
 
         $this->db = $db;
 
-		$this->editor_name = 'ATM-Consulting';
+		$this->editor_name = 'ATM Consulting';
 		$this->editor_url = "https://www.atm-consulting.fr";
         // Id for module (must be unique).
         // Use a free id here

@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+
+
+## Version 2.4
+
 - FIX : Editor name *03/08/2022* - 2.4.1
 - NEW : restore public note and extra fields  - *29/07/2022* - 2.4.0[PR# Open-DSI](https://github.com/ATM-Consulting/dolibarr_module_propalehistory/pull/55)
 

@@ -23,6 +23,7 @@ PROPALEHISTORY_HIDE_VERSION_ON_TABS_DESC = Masquer le numéro de version dans le
 PROPALEHISTORY_SHOW_VERSION_PDF = Afficher le numéro de version sur le PDF (à partir de la 2e)
 PROPALEHISTORY_SHOW_VERSION_PDF_DESC = Afficher le numéro de version sur le PDF (à partir de la 2e)
 PROPALEHISTORY_ARCHIVE_AND_RESET_DATES = Reset des dates des devis à la date du jour lors de l'archivage
+PROPALEHISTORY_RESTORE_KEEP_VERSION_NUM = Restaurer une proposistion commerciale en gardant le numéro de version
 EXPERIMENTAL_OPTIONS = Options expérimentales
 
 PropaleHistoryArchiver = Archiver
@@ -33,3 +34,4 @@ ReturnInitialVersion = Retour version courante
 
 VersionNumberShort = Version n°
 Visualiser = Visualiser
+PropaleHistoryVersionNum = Numéro de version

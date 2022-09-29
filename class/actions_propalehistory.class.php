@@ -238,9 +238,20 @@ class ActionsPropalehistory
 		} elseif($actionATM == 'restaurer') {
             if (!empty($conf->global->PROPALEHISTORY_RESTORE_KEEP_VERSION_NUM)) {
                 $versionNumSelected = GETPOST('versionNum', 'int');
+
+                // save current proposal version before restoring
+                $currentProposal = new Propal($db);
+                $currentProposal->fetch($object->id);
+                $result = TPropaleHist::archiverPropale($ATMdb, $currentProposal);
+                if ($result < 0) {
+                    setEventMessages($currentProposal->error, $object->errors, 'errors');
+                    header('Location: ' . $_SERVER['PHP_SELF'] . '?id=' . $object->id);
+                    exit();
+                }
             } else {
                 $versionNumSelected = 0;
             }
+
 			TPropaleHist::restaurerPropale($ATMdb, $object, $versionNumSelected);
 		} elseif($actionATM == 'supprimer') {
 

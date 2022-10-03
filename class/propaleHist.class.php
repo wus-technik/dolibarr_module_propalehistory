@@ -188,7 +188,8 @@
 
 			if ($ok > 0)
 			{
-				exec('cp "'.$path.'" "'.$filename.'-'.$versionNum.'.pdf"');
+//				exec('cp "'.$path.'" "'.$filename.'-'.$versionNum.'.pdf"');
+				copy($path, $filename.'-'.$versionNum.'.pdf');
 			}
 		}
 

@@ -76,7 +76,7 @@ $formSetup->newItem('EXPERIMENTAL_OPTIONS')->setAsTitle();
 $formSetup->newItem('PROPALEHISTORY_ARCHIVE_AND_RESET_DATES')->setAsYesNo();
 
 // keep version number on restoring
-$formSetup->newItem('PROPALEHISTORY_RESTORE_KEEP_VERSION_NUM')->setAsYesNo();
+$formSetup->newItem('PROPALEHISTORY_RESTORE_KEEP_VERSION_NUM')->setAsYesNo()->helpText = $langs->transnoentities('PropaleHistoryRestoreKeepVersionNumHelp');
 
 /*
  * Actions

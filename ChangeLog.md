@@ -8,12 +8,12 @@ All notable changes to this project will be documented in this file.
   un nouveau paramètre permettant de restaurer une proposition commerciale tout en gardant le numéro de version
     ![image](https://user-images.githubusercontent.com/45359511/182880333-4a486bb5-9067-446e-af5d-8d2cfc1eebed.png)
 
-  Ajout d'un champ complémentaite caché pour savoir sur quelle version on est.
+  Ajout d'un champ complémentaire caché pour savoir sur quelle version on est.
   On garde le même fonctionnement qu'avant lorsque cette option n'est pas activée.
 
   Lorsque cette option est activée :
   - On garde le même comportement lorsqu'on archive une version (ex : si on est sur la version 1 et qu'on archive alors on passe au numéro de version suivante)
-  - Lorsqu'on restaure une version alors on garde son numéro au lieu de restaurer sur la version courante
+  - Lorsqu'on restaure une version alors on garde son numéro au lieu que la version restaurée n'usurpe le numéro de version le plus élevé
   - Par contre lorsqu'on supprime une version alors on ne bouche pas les trous pour pouvoir se repérer avec les numéros de version
 
 

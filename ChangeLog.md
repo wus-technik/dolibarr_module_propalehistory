@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ## Version 2.5
 
+- FIX : Compatibility V19  *21/11/2023* - 2.5.2
 - FIX : Remove php exec call and use copy instead  *03/10/2022* - 2.5.1
 - NEW : Option to keep version number on restore  *03/10/2022* - 2.5.0 [PR# Open-DSI](https://github.com/ATM-Consulting/dolibarr_module_propalehistory/pull/56)
   un nouveau paramètre permettant de restaurer une proposition commerciale tout en gardant le numéro de version

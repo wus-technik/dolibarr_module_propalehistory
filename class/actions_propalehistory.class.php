@@ -1,5 +1,7 @@
 <?php
-class ActionsPropalehistory
+
+require_once __DIR__.'/../backport/v19/core/class/commonhookactions.class.php';
+class ActionsPropalehistory extends \propalehistory\RetroCompatCommonHookActions
 {
      /** Overloading the doActions function : replacing the parent's function with the one below
       *  @param      parameters  meta datas of the hook (context, etc...)
@@ -57,7 +59,7 @@ class ActionsPropalehistory
 				}
                 $versionNum = TPropaleHist::listeVersions($db, $object);
 
-				if ($versionNum > 1 && !$conf->global->PROPALEHISTORY_HIDE_VERSION_ON_TABS) {
+				if ($versionNum > 1 && !getDolGlobalInt('PROPALEHISTORY_HIDE_VERSION_ON_TABS')) {
 					?>
 						<script type="text/javascript">
 							$("a#comm").first().append(" / v. <?php echo $versionNum; ?>");
@@ -74,7 +76,7 @@ class ActionsPropalehistory
 	function afterPDFCreation($parameters, &$object, &$action, $hookmanager) {
 		global $langs, $db, $user, $conf;
 
-		if (!empty($conf->global->PROPALEHISTORY_SHOW_VERSION_PDF)) {
+		if (getDolGlobalString('PROPALEHISTORY_SHOW_VERSION_PDF')) {
 			$object_src = $parameters['object'];
 			if (isset($object_src)) {
 				$obj = $object_src;
@@ -97,7 +99,7 @@ class ActionsPropalehistory
 	function beforePDFCreation($parameters, &$object, &$action, $hookmanager) {
       	global $langs, $db, $user, $conf;
 
-      	if (!empty($conf->global->PROPALEHISTORY_SHOW_VERSION_PDF)) {
+      	if (getDolGlobalString('PROPALEHISTORY_SHOW_VERSION_PDF')) {
 			$object_src = $parameters['object'];
 			if (isset($object_src)) {
 				$obj = $object_src;
@@ -136,10 +138,11 @@ class ActionsPropalehistory
 	{
 		global $conf, $langs, $db, $user;
 
-		if (in_array('propalcard', explode(':', $parameters['context'])) && ! empty($conf->global->PROPALEHISTORY_ARCHIVE_ON_MODIFY))
+		if (in_array('propalcard', explode(':', $parameters['context'])) && getDolGlobalString('PROPALEHISTORY_ARCHIVE_ON_MODIFY'))
 		{
+            $action = GETPOST('action', 'alphanohtml');
 			// Ask if proposal archive wanted
-			if ($_REQUEST['action'] == 'modif') { // $action peut être changé à 'modif' dans doActions() après l'affichage de la pop-in : on teste $_REQUEST['action'] à la place
+			if ($action == 'modif') { // $action peut être changé à 'modif' dans doActions() après l'affichage de la pop-in : on teste $_REQUEST['action'] à la place
 
 				$formquestion = array(
 					array('type' => 'checkbox', 'name' => 'archive_proposal', 'label' => $langs->trans("ArchiveProposalCheckboxLabel"), 'value' => 1),
@@ -174,7 +177,7 @@ class ActionsPropalehistory
 		}
 		$ATMdb = new TPDOdb;
 
-		if (in_array('propalcard', explode(':', $parameters['context'])) && ! empty($conf->global->PROPALEHISTORY_ARCHIVE_ON_MODIFY))
+		if (in_array('propalcard', explode(':', $parameters['context'])) && getDolGlobalString('PROPALEHISTORY_ARCHIVE_ON_MODIFY'))
 		{
 
 			if ($action == 'modif') {
@@ -239,7 +242,7 @@ class ActionsPropalehistory
             header('Location: ' . $_SERVER['PHP_SELF'] . '?id=' . $object->id);
             exit();
 		} elseif($actionATM == 'restaurer') {
-            if (!empty($conf->global->PROPALEHISTORY_RESTORE_KEEP_VERSION_NUM)) {
+            if (getDolGlobalString('PROPALEHISTORY_RESTORE_KEEP_VERSION_NUM')) {
                 $versionNumSelected = GETPOST('versionNum', 'int');
 
                 // save current proposal version before restoring

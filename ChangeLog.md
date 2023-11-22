@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- FIX : Compatibility V19  *21/11/2023* - 2.6.0
+
 ## Version 2.5
 
 - FIX : Remove php exec call and use copy instead  *03/10/2022* - 2.5.1

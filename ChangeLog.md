@@ -3,9 +3,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+
+
+## Release 2.6
+
 - FIX : Compatibility V19  *21/11/2023* - 2.6.0
 
-## Version 2.5
+## Release 2.5
 
 - FIX : Remove php exec call and use copy instead  *03/10/2022* - 2.5.1
 - NEW : Option to keep version number on restore  *03/10/2022* - 2.5.0 [PR# Open-DSI](https://github.com/ATM-Consulting/dolibarr_module_propalehistory/pull/56)
@@ -21,12 +25,12 @@ All notable changes to this project will be documented in this file.
   - Par contre lorsqu'on supprime une version alors on ne bouche pas les trous pour pouvoir se repérer avec les numéros de version
 
 
-## Version 2.4
+## Release 2.4
 
 - FIX : Editor name *03/08/2022* - 2.4.1
 - NEW : restore public note and extra fields  - *29/07/2022* - 2.4.0[PR# Open-DSI](https://github.com/ATM-Consulting/dolibarr_module_propalehistory/pull/55)
 
-## Version 2.3
+## Release 2.3
 
 - FIX : Compatibility PHP 8 - *15/07/2022* - 2.3.3
 - FIX : Module icon *12/07/2022* 2.3.2
@@ -38,7 +42,7 @@ All notable changes to this project will be documented in this file.
   by activating this conf, reset proposal date and end validity date with today date if above const is enabled
 
 
-## Version 2.0
+## Release 2.0
 - FIX : v16 token - *02/06/2022* - 2.0.5  
 - FIX : hack stockage de la ref propale - 2.0.4 - *13/05/2022*
 - FIX: Suppression de conf pour ajouter son comportement par défaut - 2.0.3 - *04/04/2022*
@@ -46,11 +50,11 @@ All notable changes to this project will be documented in this file.
 - FIX: v14 compatibility - setDateLivraison -> setDeliveryDate - 2.0.1 - *27/07/2021*
 - NEW: compatible with Dolibarr v13 and v14, **no longer compatible with v11 and lower** - *2021-06-28* - 2.0.0
 
-## Version 1.4
+## Release 1.4
 
 - FIX - Compatibility V14 : Edit the descriptor: editor_name, editor_url and family - *2021-06-10* - 1.4.7
 
 
-## Version 1.0
+## Release 1.0
 
 initial version

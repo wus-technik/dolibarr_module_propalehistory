@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 
 ## Release 2.6
-
+- FIX : replace code $_REQUEST  conflict with attachment module - *21/03/2024* - 2.6.1  
 - FIX : Compatibility V19  *21/11/2023* - 2.6.0
 
 ## Release 2.5

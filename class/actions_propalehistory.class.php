@@ -141,10 +141,11 @@ class ActionsPropalehistory extends \propalehistory\RetroCompatCommonHookActions
 
 		if (in_array('propalcard', explode(':', $parameters['context'])) && getDolGlobalString('PROPALEHISTORY_ARCHIVE_ON_MODIFY'))
 		{
-            $action = GETPOST('action', 'alphanohtml');
-			// Ask if proposal archive wanted
-			if ($action == 'modif') { // $action peut être changé à 'modif' dans doActions() après l'affichage de la pop-in : on teste $_REQUEST['action'] à la place
 
+			// Ask if proposal archive wanted
+			// $action peut être changé à 'modif' dans doActions() après l'affichage de la pop-in : on teste $_REQUEST['action'] à la place
+			// CE code revient dans sa version antérieure dû à un bug provoqué dans attachment
+			if ( array_key_exists('action', $_REQUEST) && $_REQUEST['action'] == 'modif') {
 				$formquestion = array(
 					array('type' => 'checkbox', 'name' => 'archive_proposal', 'label' => $langs->trans("ArchiveProposalCheckboxLabel"), 'value' => 1),
 				);

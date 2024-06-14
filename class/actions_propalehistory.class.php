@@ -115,7 +115,8 @@ class ActionsPropalehistory extends \propalehistory\RetroCompatCommonHookActions
 
                 $versionNum = TPropaleHist::getVersionNumFromProposalOrVersionList($db, $obj);
 
-				if ($versionNum > 1) {
+				// TODO voir pour trouver une autre méthode DANGER pour la création des PDF
+				if ($versionNum > 1 && empty($object->context['docEditPdfGeneration'])) {
 					$obj->context['propale_history'] = array('original_ref' => $obj->ref);
 					$obj->ref .= '/' . ($versionNum);
 				}

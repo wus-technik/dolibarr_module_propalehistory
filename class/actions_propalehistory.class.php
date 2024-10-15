@@ -149,7 +149,7 @@ class ActionsPropalehistory extends \propalehistory\RetroCompatCommonHookActions
 			if ( array_key_exists('action', $_REQUEST) && $_REQUEST['action'] == 'modif') {
 				$formquestion = array(
 					array('type' => 'checkbox', 'name' => 'archive_proposal', 'label' => $langs->trans("ArchiveProposalCheckboxLabel"), 'value' => 1),
-					array('type' => 'date', 'name' => 'archive_proposal_date_', 'label' => $langs->trans("DatePropal"), 'value' => dol_now()),
+					array('type' => 'date', 'name' => 'archive_proposal_date_', 'label' => $langs->trans("DatePropal"), 'value' => (!empty($conf->global->PROPALEHISTORY_ARCHIVE_WITH_DATE_NOW) ? dol_now() : $object->date), 'datenow' => 1),
 				);
 				$form = new Form($db);
 				$formconfirm = $form->formconfirm($_SERVER["PHP_SELF"] . '?id=' . $object->id, $langs->trans('ArchiveProposal'), $langs->trans('ConfirmModifyProposal', $object->ref), 'propalhistory_confirm_modify', $formquestion, 'yes', 1);
@@ -239,7 +239,7 @@ class ActionsPropalehistory extends \propalehistory\RetroCompatCommonHookActions
 			$object->id = $_REQUEST['id'];
 			$object->db = $db;
 		} elseif($actionATM == 'createVersion') {
-			$result = TPropaleHist::archiverPropale($ATMdb, $object);
+			$result = TPropaleHist::archiverPropale($ATMdb, $object, (!empty($conf->global->PROPALEHISTORY_ARCHIVE_WITH_DATE_NOW) ? dol_now() : ''));
             if ($result < 0) {
                 setEventMessages($object->error, $object->errors, 'errors');
             } else {

@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 
 
 
+## Release 2.7
+- NEW : Nouvelle version à la modification d'un devis avec choix de la date - *21/10/2024* - 2.7.0
+
 ## Release 2.6
 - FIX : remove warning - *28/05/2025* - 2.6.4  
 - FIX : Compatibilité v20 - *14/10/2024* - 2.6.3

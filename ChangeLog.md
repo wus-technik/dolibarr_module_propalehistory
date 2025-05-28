@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - NEW : Nouvelle version à la modification d'un devis avec choix de la date - *21/10/2024* - 2.7.0
 
 ## Release 2.6
+- FIX : remove warning - *28/05/2025* - 2.6.4  
 - FIX : Compatibilité v20 - *14/10/2024* - 2.6.3
 - FIX : Enregistrement du pdf docedit, non changement de ref - *14/06/2024* - 2.6.2  
 - FIX : replace code $_REQUEST  conflict with attachment module - *21/03/2024* - 2.6.1  

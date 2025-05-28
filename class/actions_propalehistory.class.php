@@ -84,12 +84,16 @@ class ActionsPropalehistory extends \propalehistory\RetroCompatCommonHookActions
 				$obj = $object;
 			}
 
-			if ($obj->element == 'propal' && !empty($obj->context['propale_history']['original_ref'])) {
+			if (
+				property_exists($obj, 'element') &&
+				$obj->element == 'propal' &&
+				!empty($obj->context['propale_history']['original_ref'])
+			) {
 				$original_ref = $obj->context['propale_history']['original_ref'];
 
 				// Restore ref
 				$obj->ref = $original_ref;
-                $obj->context['propale_history']['original_ref'] = null;
+				$obj->context['propale_history']['original_ref'] = null;
 			}
 		}
 

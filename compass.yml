@@ -1,0 +1,18 @@
+name: dolibarr_module_propalehistory
+id: ari:cloud:compass:29687d12-de2f-40ae-98eb-16a2337c6547:component/27fd418c-f0b4-477c-a1d3-a6f789c15241/e257480b-fcf1-43bb-920d-ce793bc10349
+description: null
+configVersion: 1
+typeId: LIBRARY
+ownerId: null
+fields:
+  tier: 4
+links:
+  - name: null
+    type: REPOSITORY
+    url: https://github.com/wus-technik/dolibarr_module_propalehistory
+relationships:
+  DEPENDS_ON: []
+labels:
+  - language:php
+  - source:github
+customFields: null

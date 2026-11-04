@@ -116,7 +116,7 @@ class InterfacePropalehistory extends DolibarrTriggers
 		//echo $action.'<br>';
         if ($action == 'PROPAL_CREATE') {
             // only for clone proposal and if version number is used
-            if ($object->context['createfromclone'] == 'createfromclone' && !empty($object->array_options['options_propalehistory_version_num'])) {
+            if (!empty($object->context['createfromclone']) && $object->context['createfromclone'] == 'createfromclone' && !empty($object->array_options['options_propalehistory_version_num'])) {
                 $object->array_options['options_propalehistory_version_num'] = null; // reset version number
                 $result = $object->insertExtraFields();
                 if ($result < 0) {
